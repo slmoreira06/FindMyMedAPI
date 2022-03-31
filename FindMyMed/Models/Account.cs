@@ -14,6 +14,11 @@ namespace FindMyMed.Models
         public Types Type { get; set; }
         [ForeignKey("User")]
         public int UserId { get; set; }
+
+        public Account()
+        {
+            this.Status = StatusEnum.Activo;
+        }
     }
 
     public enum StatusEnum
