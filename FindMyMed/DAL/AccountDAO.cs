@@ -23,7 +23,8 @@ namespace FindMyMed.DAL
                         account.Email = reader.GetFieldValue<string>(1);
                         account.UserName = reader.GetFieldValue<string>(2);
                         account.Password = reader.GetFieldValue<string>(3);
-                        //account.Status = reader.GetFieldValue<string>(4);
+                        account.Status = Enum.Parse<StatusEnum>(reader.GetFieldValue<string>(4));
+                        account.Type = Enum.Parse<Types>(reader.GetFieldValue<string>(4));
                     }
                     reader.Close();
                 }
