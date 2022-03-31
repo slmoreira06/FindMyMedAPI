@@ -14,7 +14,7 @@ namespace FindMyMed.DAL
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("AppDBContextConnection");
+                optionsBuilder.UseSqlServer("AppConnection");
             }
         }
     }
