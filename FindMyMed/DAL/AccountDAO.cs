@@ -5,11 +5,13 @@ namespace FindMyMed.DAL
 {
     public class AccountDAO : IAccountsRepository
     {
+        String connect = "Server=tcp:test-sql-lesipl-pds.database.windows.net,1433;Initial Catalog=FindMyMed_db;Persist Security Info=False;User ID=Ipca_Server;Password=Soueu1999;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+
         public bool CreateAccount(Account account)
         {
             bool success = false;
             String queryString = $"INSERT INTO dbo.Accounts (Email, UserName, Password, Status, Type) VALUES (@Email, @UserName, @Password, @Status, @Type)";
-            using (SqlConnection sqlConnection = new SqlConnection("AppConnection"))
+            using (SqlConnection sqlConnection = new SqlConnection(connect))
             {
                 using (SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection))
                 {
@@ -65,7 +67,12 @@ namespace FindMyMed.DAL
                     String queryStringPharm = $"INSERT INTO dbo.Pharmacy (Email, UserName, Password) VALUES (@Email, @UserName, @Password)";
                     using (SqlCommand sqlCommand = new SqlCommand(queryStringPharm, sqlConnection))
                     {
-
+                        Pharmacy pharmacy = new Pharmacy()
+                        {
+                            UserName = account.UserName,
+                            Password = account.Password,
+                            Email = account.Email,
+                        };
 
                         sqlCommand.Parameters.Add("@Email", System.Data.SqlDbType.NVarChar).Value = account.Email;
                         sqlCommand.Parameters.Add("@UserName", System.Data.SqlDbType.NVarChar).Value = account.UserName;
@@ -92,7 +99,7 @@ namespace FindMyMed.DAL
         {
             List<Account> accounts = new List<Account>();
             string sqlStatement = $"SELECT Id, Email, UserName, Password, Status, Type FROM dbo.Accounts";
-            using (SqlConnection connection = new SqlConnection("AppConnection"))
+            using (SqlConnection connection = new SqlConnection(connect))
             {
                 try
                 {
@@ -130,7 +137,7 @@ namespace FindMyMed.DAL
         {
             Account account = new Account();
             string sqlStatement = $"SELECT Id, Email, UserName, Password, Status, Type FROM dbo.Accounts WHERE Id = {id}";
-            using (SqlConnection connection = new SqlConnection("AppConnection"))
+            using (SqlConnection connection = new SqlConnection(connect))
             {
                 try
                 {
