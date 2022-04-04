@@ -21,9 +21,14 @@ namespace FindMyMed.Controllers
 {
     public class AccountController : Controller
     {
-        public IActionResult Index()
+       
+        private readonly IAccountsRepository repository;
+        private readonly IMapper mapper;
+
+        public AccountController(IAccountsRepository repository, IMapper mapper)
         {
-            return View();
+            this.repository = repository;
+            this.mapper = mapper;
         }
 
         [HttpGet]
