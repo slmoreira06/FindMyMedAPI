@@ -20,7 +20,6 @@ namespace FindMyMed.Models
 
         public Account()
         {
-            this.Status = StatusEnum.Activo;
         }
     }
 

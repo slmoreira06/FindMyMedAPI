@@ -1,4 +1,5 @@
-﻿using FindMyMed.Models;
+﻿using FindMyMed.DTO;
+using FindMyMed.Models;
 using Microsoft.Data.SqlClient;
 
 namespace FindMyMed.DAL
@@ -44,7 +45,7 @@ namespace FindMyMed.DAL
                             Password = account.Password,
                             Email = account.Email,
                         };
-                        
+
                         sqlCommand.Parameters.Add("@Email", System.Data.SqlDbType.NVarChar).Value = account.Email;
                         sqlCommand.Parameters.Add("@UserName", System.Data.SqlDbType.NVarChar).Value = account.UserName;
                         sqlCommand.Parameters.Add("@Password", System.Data.SqlDbType.NVarChar).Value = account.Password;
@@ -163,6 +164,31 @@ namespace FindMyMed.DAL
                 finally
                 {
                     connection.Close();
+                }
+            }
+            return account;
+        }
+
+        public UpdateAccountDTO DeactivateAccount(int id, UpdateAccountDTO account)
+        {
+            String queryString = $"UPDATE dbo.Accounts SET Status=@Status WHERE Id = {id}";
+            using (SqlConnection sqlConnection = new SqlConnection(connect))
+            {
+                using (SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection))
+                {
+                    account.Status = StatusEnum.Inactivo;
+                    sqlCommand.Parameters.Add("@Status", System.Data.SqlDbType.NVarChar).Value = account.Status;
+
+                    try
+                    {
+                        sqlConnection.Open();
+                        sqlCommand.ExecuteNonQuery();
+                        sqlConnection.Close();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    };
                 }
             }
             return account;
