@@ -3,14 +3,17 @@ using FindMyMed.Models;
 
 namespace FindMyMed.DAL
 {
-    public class AccountsProfile : AutoMapper.Profile
+    public class Profiles : AutoMapper.Profile
     {
-        public AccountsProfile()
+        public Profiles()
         {
             CreateMap<Account, ReadAccountDTO>();
             CreateMap<CreateAccountDTO, Account>();
             CreateMap<Account, UpdateAccountDTO>();
             CreateMap<UpdateAccountDTO, Account>();
+            CreateMap<User, ReadUserDTO>();
+            CreateMap<User, UpdateUserDTO>();
+            CreateMap<UpdateUserDTO, User>();
         }
     }
 }

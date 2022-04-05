@@ -12,8 +12,8 @@ namespace FindMyMed.Models
         public string UserName { get; set; }
         public string Password { get; set; }
         public DateTime Birthday { get; set; }
-        public int VAT { get; set; }
         public int Phone { get; set; }
+        public int VAT { get; set; }
         [ForeignKey("Account")]
         public int AccountId { get; set; }
 
