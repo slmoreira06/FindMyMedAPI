@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Projeto De Desenvolvimento de Software
 /*! \brief Projeto De Desenvolvimento de Software
  *         Engenharia de Sistemas informáticos
