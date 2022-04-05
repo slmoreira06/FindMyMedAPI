@@ -48,18 +48,17 @@ namespace FindMyMed.Controllers
             return CreatedAtAction(nameof(GetAccounts), new { id = accRead.Id }, accRead);
         }
 
-        /*[HttpDelete("{id}")]
-        public ActionResult DeleteUser(int id)
+        [HttpPut("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public ActionResult<ReadAccountDTO> DeactivateAccount(int  id, UpdateAccountDTO acc)
         {
-            Account acc = repository.GetAccountById(id);
-            if (acc == null)
-            {
+            if (acc is null)
                 return NotFound();
-            }
-            repository.DeleteAccount(acc);
-            repository.SaveChanges();
+
+            repository.DeactivateAccount(id, acc);
 
             return NoContent();
-        }*/
+        }
     }
 }
