@@ -28,7 +28,7 @@ namespace FindMyMed.DAL
                         user.Email = reader.GetFieldValue<string>(3);
                         user.UserName = reader.GetFieldValue<string>(4);
                         user.Password = reader.GetFieldValue<string>(5);
-                        user.Birthday = Convert.ToDateTime(reader.GetFieldValue<string>(6));
+                        user.Birthday = reader.GetFieldValue<DateTime>(6);
                         user.Phone = reader.GetFieldValue<int>(7);
                         user.VAT = reader.GetFieldValue<int>(8);
                         users.Add(user);
@@ -68,7 +68,7 @@ namespace FindMyMed.DAL
                         user.Email = reader.GetFieldValue<string>(3);
                         user.UserName = reader.GetFieldValue<string>(4);
                         user.Password = reader.GetFieldValue<string>(5);
-                        user.Birthday = Convert.ToDateTime(reader.GetFieldValue<string>(6));
+                        user.Birthday = reader.GetFieldValue<DateTime>(6);
                         user.Phone = reader.GetFieldValue<int>(7);
                         user.VAT = reader.GetFieldValue<int>(8);
                     }
@@ -88,17 +88,17 @@ namespace FindMyMed.DAL
 
         public UpdateUserDTO UpdateUserProfile(int id, UpdateUserDTO userDTO)
         {
-            String queryString = $"UPDATE dbo.Users SET FirstName=@FirstName, LastName=@LastName, UserName=@UserName, Password=@Password, Birthday=@Birthday, Phone=@Phone, VAT=@VAT WHERE Id = {id}";
+            String queryString = $"UPDATE dbo.Users SET FirstName=@FirstName, LastName=@LastName, UserName=@UserName, Password=@Password, Birthday=@Birthday, Phone=@Phone WHERE Id = {id}";
             using (SqlConnection sqlConnection = new SqlConnection(connect))
             {
                 using (SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection))
                 {
-                    sqlCommand.Parameters.Add("@FirstName", System.Data.SqlDbType.NVarChar).Value = userDTO.UserName;
-                    sqlCommand.Parameters.Add("@LastName", System.Data.SqlDbType.NVarChar).Value = userDTO.UserName;
+                    sqlCommand.Parameters.Add("@FirstName", System.Data.SqlDbType.NVarChar).Value = userDTO.FirstName;
+                    sqlCommand.Parameters.Add("@LastName", System.Data.SqlDbType.NVarChar).Value = userDTO.LastName;
                     sqlCommand.Parameters.Add("@UserName", System.Data.SqlDbType.NVarChar).Value = userDTO.UserName;
                     sqlCommand.Parameters.Add("@Password", System.Data.SqlDbType.NVarChar).Value = userDTO.Password;
-                    sqlCommand.Parameters.Add("@Birthday", System.Data.SqlDbType.NVarChar).Value = userDTO.Birthday;
-                    sqlCommand.Parameters.Add("@Phone", System.Data.SqlDbType.NVarChar).Value = userDTO.Phone;
+                    sqlCommand.Parameters.Add("@Birthday", System.Data.SqlDbType.DateTime).Value = userDTO.Birthday;
+                    sqlCommand.Parameters.Add("@Phone", System.Data.SqlDbType.Int).Value = userDTO.Phone;
 
                     try
                     {
@@ -111,11 +111,10 @@ namespace FindMyMed.DAL
                         Console.WriteLine(e.Message);
                     }
                 }
-                String queryAccount = $"UPDATE dbo.Accounts SET UserName=@UserName, Password=@Password  WHERE Email = {userDTO.Email}";
+                String queryAccount = $"UPDATE dbo.Accounts SET UserName=@UserName, Password=@Password  WHERE Email = '{userDTO.Email}'";
 
                 using (SqlCommand sqlCommand = new SqlCommand(queryAccount, sqlConnection))
                 {
-
                     sqlCommand.Parameters.Add("@UserName", System.Data.SqlDbType.NVarChar).Value = userDTO.UserName;
                     sqlCommand.Parameters.Add("@Password", System.Data.SqlDbType.NVarChar).Value = userDTO.Password;
 

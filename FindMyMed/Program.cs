@@ -11,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<IAccountsRepository, AccountDAO>();
 builder.Services.AddScoped<IUsersRepository, UserDAO>();
+builder.Services.AddScoped<IPharmsRepository, PharmDAO>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSwaggerGen(option =>
 {
