@@ -15,7 +15,6 @@ using AutoMapper;
 using FindMyMed.DAL;
 using FindMyMed.DTO;
 using FindMyMed.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FindMyMed.Controllers
@@ -34,7 +33,7 @@ namespace FindMyMed.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet, Authorize]
+        [HttpGet]
         [ProducesResponseType(200)]
         public ActionResult<IEnumerable<ReadAccountDTO>> GetAccounts()
         {

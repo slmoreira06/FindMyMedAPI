@@ -36,7 +36,7 @@ namespace FindMyMed.DAL
                 }
                 if (account.Type == Enum.Parse<Types>("User"))
                 {
-                    String queryStringUser = $"INSERT INTO dbo.Users (Email, UserName, Password) VALUES (@Email, @UserName, @Password)";
+                    String queryStringUser = $"INSERT INTO dbo.Users (FirstName, LastName, Email, UserName, Password, Birthday, Phone, VAT, CardNumber) VALUES (@FirstName, @LastName, @Email, @UserName, @Password, @Birthday, @Phone, @VAT, @CardNumber)";
                     using (SqlCommand sqlCommand = new SqlCommand(queryStringUser, sqlConnection))
                     {
                         User user = new User()
@@ -46,9 +46,15 @@ namespace FindMyMed.DAL
                             Email = account.Email,
                         };
 
+                        sqlCommand.Parameters.Add("@FirstName", System.Data.SqlDbType.NVarChar).Value = "";
+                        sqlCommand.Parameters.Add("@LastName", System.Data.SqlDbType.NVarChar).Value = "";
                         sqlCommand.Parameters.Add("@Email", System.Data.SqlDbType.NVarChar).Value = account.Email;
                         sqlCommand.Parameters.Add("@UserName", System.Data.SqlDbType.NVarChar).Value = account.UserName;
                         sqlCommand.Parameters.Add("@Password", System.Data.SqlDbType.NVarChar).Value = account.Password;
+                        sqlCommand.Parameters.Add("@Birthday", System.Data.SqlDbType.DateTime).Value = DateTime.Now;
+                        sqlCommand.Parameters.Add("@Phone", System.Data.SqlDbType.Int).Value = 0;
+                        sqlCommand.Parameters.Add("@VAT", System.Data.SqlDbType.Int).Value = 0;
+                        sqlCommand.Parameters.Add("@CardNumer", System.Data.SqlDbType.Int).Value = 0;
 
                         try
                         {
@@ -65,7 +71,7 @@ namespace FindMyMed.DAL
                 }
                 else if (account.Type == Enum.Parse<Types>("Pharm"))
                 {
-                    String queryStringPharm = $"INSERT INTO dbo.Pharmacy (Email, UserName, Password) VALUES (@Email, @UserName, @Password)";
+                    String queryStringPharm = $"INSERT INTO dbo.Pharmacies (CompanyName, Email, UserName, Password, Phone, Address, VAT) VALUES (@CompanyName, @Email, @UserName, @Password, @Phone, @Address, @VAT)";
                     using (SqlCommand sqlCommand = new SqlCommand(queryStringPharm, sqlConnection))
                     {
                         Pharmacy pharmacy = new Pharmacy()
@@ -75,9 +81,13 @@ namespace FindMyMed.DAL
                             Email = account.Email,
                         };
 
+                        sqlCommand.Parameters.Add("@CompanyName", System.Data.SqlDbType.NVarChar).Value = "";
                         sqlCommand.Parameters.Add("@Email", System.Data.SqlDbType.NVarChar).Value = account.Email;
                         sqlCommand.Parameters.Add("@UserName", System.Data.SqlDbType.NVarChar).Value = account.UserName;
                         sqlCommand.Parameters.Add("@Password", System.Data.SqlDbType.NVarChar).Value = account.Password;
+                        sqlCommand.Parameters.Add("@Phone", System.Data.SqlDbType.Int).Value = 0;
+                        sqlCommand.Parameters.Add("@Address", System.Data.SqlDbType.NVarChar).Value = "";
+                        sqlCommand.Parameters.Add("@VAT", System.Data.SqlDbType.Int).Value = 0;
 
                         try
                         {

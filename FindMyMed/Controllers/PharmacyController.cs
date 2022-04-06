@@ -7,12 +7,12 @@ namespace FindMyMed.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : Controller
+    public class PharmacyController : Controller
     {
-        private readonly IUsersRepository repository;
+        private readonly IPharmsRepository repository;
         private readonly IMapper mapper;
 
-        public UserController(IUsersRepository repository, IMapper mapper)
+        public PharmacyController(IPharmsRepository repository, IMapper mapper)
         {
             this.repository = repository;
             this.mapper = mapper;
@@ -20,34 +20,34 @@ namespace FindMyMed.Controllers
 
         [HttpGet]
         [ProducesResponseType(200)]
-        public ActionResult<IEnumerable<ReadUserDTO>> GetUsers()
+        public ActionResult<IEnumerable<ReadPharmDTO>> GetPharms()
         {
-            var users = repository.GetUsers();
-            return Ok(mapper.Map<IEnumerable<ReadUserDTO>>(users));
+            var pharms = repository.GetPharms();
+            return Ok(mapper.Map<IEnumerable<ReadPharmDTO>>(pharms));
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public ActionResult<ReadUserDTO> GetUserById(int id)
+        public ActionResult<ReadPharmDTO> GetPharmById(int id)
         {
-            var user = repository.GetUserById(id);
+            var pharm = repository.GetPharmById(id);
 
-            if (user is null)
+            if (pharm is null)
                 return NotFound();
 
-            return Ok(mapper.Map<ReadUserDTO>(user));
+            return Ok(mapper.Map<ReadPharmDTO>(pharm));
         }
 
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public ActionResult<ReadUserDTO> UpdateUserProfile(int id, UpdateUserDTO user)
+        public ActionResult<ReadPharmDTO> UpdatePharmProfile(int id, UpdatePharmDTO pharm)
         {
-            if (user is null)
+            if (pharm is null)
                 return NotFound();
 
-            repository.UpdateUserProfile(id, user);
+            repository.UpdatePharmProfile(id, pharm);
 
             return NoContent();
         }
