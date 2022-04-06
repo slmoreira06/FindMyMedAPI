@@ -109,7 +109,26 @@ namespace FindMyMed.DAL
                     catch (Exception e)
                     {
                         Console.WriteLine(e.Message);
-                    };
+                    }
+                }
+                String queryAccount = $"UPDATE dbo.Accounts SET UserName=@UserName, Password=@Password  WHERE Email = {userDTO.Email}";
+
+                using (SqlCommand sqlCommand = new SqlCommand(queryAccount, sqlConnection))
+                {
+
+                    sqlCommand.Parameters.Add("@UserName", System.Data.SqlDbType.NVarChar).Value = userDTO.UserName;
+                    sqlCommand.Parameters.Add("@Password", System.Data.SqlDbType.NVarChar).Value = userDTO.Password;
+
+                    try
+                    {
+                        sqlConnection.Open();
+                        sqlCommand.ExecuteNonQuery();
+                        sqlConnection.Close();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
                 }
             }
             return userDTO;

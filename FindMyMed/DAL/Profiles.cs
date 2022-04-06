@@ -9,11 +9,13 @@ namespace FindMyMed.DAL
         {
             CreateMap<Account, ReadAccountDTO>();
             CreateMap<CreateAccountDTO, Account>();
+            CreateMap<Account, LoginAccount>();
             CreateMap<Account, UpdateAccountDTO>();
             CreateMap<UpdateAccountDTO, Account>();
             CreateMap<User, ReadUserDTO>();
             CreateMap<User, UpdateUserDTO>();
             CreateMap<UpdateUserDTO, User>();
+
         }
     }
 }

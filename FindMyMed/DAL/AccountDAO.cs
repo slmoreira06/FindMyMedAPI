@@ -153,7 +153,7 @@ namespace FindMyMed.DAL
                         account.UserName = reader.GetFieldValue<string>(2);
                         account.Password = reader.GetFieldValue<string>(3);
                         account.Status = Enum.Parse<StatusEnum>(reader.GetFieldValue<string>(4));
-                        account.Type = Enum.Parse<Types>(reader.GetFieldValue<string>(4));
+                        account.Type = Enum.Parse<Types>(reader.GetFieldValue<string>(5));
                     }
                     reader.Close();
                 }
@@ -167,6 +167,43 @@ namespace FindMyMed.DAL
                 }
             }
             return account;
+        }
+
+        public bool GetAccount(LoginAccount loginAccount)
+        {
+            bool success = false;
+            string sqlStatement = $"SELECT Id, Email, Password FROM dbo.Accounts WHERE Email = '{loginAccount.Email}'";
+            using (SqlConnection connection = new SqlConnection(connect))
+            {
+                try
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(sqlStatement, connection);
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        if (loginAccount.Password == reader.GetFieldValue<string>(2) && loginAccount.Status == StatusEnum.Activo)
+                        {
+                            loginAccount.Id = reader.GetFieldValue<int>(0);
+                            loginAccount.Email = reader.GetFieldValue<string>(1);
+                            loginAccount.Password = reader.GetFieldValue<string>(2);
+                            success = true;
+                        }
+                        else success = false;
+                    }
+                    reader.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            return success;
         }
 
         public UpdateAccountDTO DeactivateAccount(int id, UpdateAccountDTO account)

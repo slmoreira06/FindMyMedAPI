@@ -1,9 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace FindMyMed.Models
+﻿namespace FindMyMed.Models
 {
     public class Product
     {
@@ -18,6 +13,6 @@ namespace FindMyMed.Models
         {
             this.Status = StatusEnum.Activo;
         }
-    }      
-    
+    }
+
 }
