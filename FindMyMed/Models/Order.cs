@@ -1,9 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace FindMyMed.Models
+﻿namespace FindMyMed.Models
 {
     public class Order
     {
@@ -13,9 +8,9 @@ namespace FindMyMed.Models
         public int VAT { get; set; }
         public string PaymentMethod { get; set; }
         public int CardNumber { get; set; }
-        public int UsedPoints { get; set;  }
+        public int UsedPoints { get; set; }
         public StatusEnum Status { get; set; }
-        
+
 
         public Order()
         {
@@ -23,5 +18,5 @@ namespace FindMyMed.Models
         }
 
     }
-   
+
 }

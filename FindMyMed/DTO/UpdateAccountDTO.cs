@@ -1,5 +1,4 @@
 ﻿using FindMyMed.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace FindMyMed.DTO
 {

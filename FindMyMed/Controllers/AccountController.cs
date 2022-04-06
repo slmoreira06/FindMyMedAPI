@@ -15,6 +15,7 @@ using AutoMapper;
 using FindMyMed.DAL;
 using FindMyMed.DTO;
 using FindMyMed.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FindMyMed.Controllers
@@ -23,7 +24,7 @@ namespace FindMyMed.Controllers
     [ApiController]
     public class AccountController : Controller
     {
-       
+
         private readonly IAccountsRepository repository;
         private readonly IMapper mapper;
 
@@ -33,7 +34,7 @@ namespace FindMyMed.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         [ProducesResponseType(200)]
         public ActionResult<IEnumerable<ReadAccountDTO>> GetAccounts()
         {
@@ -70,7 +71,7 @@ namespace FindMyMed.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public ActionResult<ReadAccountDTO> DeactivateAccount(int  id, UpdateAccountDTO acc)
+        public ActionResult<ReadAccountDTO> DeactivateAccount(int id, UpdateAccountDTO acc)
         {
             if (acc is null)
                 return NotFound();
