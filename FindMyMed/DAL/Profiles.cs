@@ -17,7 +17,10 @@ namespace FindMyMed.DAL
             CreateMap<Pharmacy, ReadPharmDTO>();
             CreateMap<Pharmacy, UpdatePharmDTO>();
             CreateMap<UpdatePharmDTO, Pharmacy>();
-
+            CreateMap<Order, ReadOrderDTO>();
+            CreateMap<CreateOrderDTO, Order>();
+            CreateMap<Order, UpdateOrderDTO>();
+            CreateMap<UpdateOrderDTO, Order>();
         }
     }
 }
