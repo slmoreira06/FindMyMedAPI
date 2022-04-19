@@ -9,6 +9,5 @@ namespace FindMyMed.DAL
         Order GetOrderById(int id);
         IEnumerable<Order> GetOrders();
         UpdateOrderDTO UpdateOrder(int id, UpdateOrderDTO orderDTO);
-
     }
 }
