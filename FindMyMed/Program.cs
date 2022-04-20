@@ -17,6 +17,7 @@ builder.Services.AddScoped<IOrderItemsRepository, OrderItemDAO>();
 builder.Services.AddScoped<IProductsRepository, ProductDAO>();
 builder.Services.AddScoped<ISupportsRepository, SupportDAO>();
 builder.Services.AddScoped<ICartsRepository, CartDAO>();
+builder.Services.AddScoped<IInventoriesRepository, InventoryDAO>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSwaggerGen(option =>
 {
