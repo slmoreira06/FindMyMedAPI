@@ -12,7 +12,7 @@ namespace FindMyMed.DAL
         {
             bool success = false;
             String queryString = $"INSERT INTO dbo.Orders (CreationDate, Status) VALUES (@CreationDate, @Status)";
-            String orderItemString = $"INSERT INTO dbo.OrderItems (";
+            String orderItemString = $"INSERT INTO dbo.OrderItems ()";
             using (SqlConnection sqlConnection = new SqlConnection(connect))
             {
                 using (SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection))
