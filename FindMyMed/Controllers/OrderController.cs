@@ -21,13 +21,13 @@ namespace FindMyMed.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : Controller
+    public class OrderController : Controller
     {
 
-        private readonly IProductsRepository repository;
+        private readonly IOrdersRepository repository;
         private readonly IMapper mapper;
 
-        public ProductController(IProductsRepository repository, IMapper mapper)
+        public OrderController(IOrdersRepository repository, IMapper mapper)
         {
             this.repository = repository;
             this.mapper = mapper;
@@ -35,47 +35,48 @@ namespace FindMyMed.Controllers
 
         [HttpGet]
         [ProducesResponseType(200)]
-        public ActionResult<IEnumerable<ReadProductDTO>> GetProducts()
+        public ActionResult<IEnumerable<ReadOrderDTO>> GetOrders()
         {
-            var prod = repository.GetProducts();
-            return Ok(mapper.Map<IEnumerable<ReadProductDTO>>(prod));
+            var order = repository.GetOrders();
+            return Ok(mapper.Map<IEnumerable<ReadOrderDTO>>(order));
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public ActionResult<ReadProductDTO> GetProductById(int id)
+        public ActionResult<ReadOrderDTO> GetOrderById(int id)
         {
-            var prod = repository.GetProductById(id);
+            var order = repository.GetOrderById(id);
 
-            if (prod is null)
+            if (order is null)
                 return NotFound();
 
-            return Ok(mapper.Map<ReadProductDTO>(prod));
+            return Ok(mapper.Map<ReadOrderDTO>(order));
         }
 
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public ActionResult<ReadProductDTO> CreateProduct(CreateProductDTO prodDTO)
+        public ActionResult<ReadOrderDTO> CreateOrder(CreateOrderDTO orderDTO)
         {
-            Product prod = mapper.Map<Product>(prodDTO);
-            repository.CreateProduct(prod);
+            Order order = mapper.Map<Order>(orderDTO);
+            List<OrderItem> orderItems = new List<OrderItem>();
+            repository.CreateOrder(order, orderItems);
 
-            var prodRead = mapper.Map<ReadProductDTO>(prod);
+            var orderRead = mapper.Map<ReadOrderDTO>(order);
 
-            return CreatedAtAction(nameof(GetProducts), new { id = prodRead.Id }, prodRead);
+            return CreatedAtAction(nameof(GetOrders), new { id = orderRead.Id }, orderRead);
         }
 
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public ActionResult<ReadProductDTO> UpdateProduct(int id, UpdateProductDTO prod)
+        public ActionResult<ReadOrderDTO> UpdateOrder(int id, UpdateOrderDTO order)
         {
-            if (prod is null)
+            if (order is null)
                 return NotFound();
 
-            repository.UpdateProduct(id, prod);
+            repository.UpdateOrder(id, order);
 
             return NoContent();
         }
