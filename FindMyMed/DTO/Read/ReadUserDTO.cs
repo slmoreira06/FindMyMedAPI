@@ -10,5 +10,6 @@
         public DateTime Birthday { get; set; }
         public int VAT { get; set; }
         public int Phone { get; set; }
+        public int UserPoints { get; set; }
     }
 }

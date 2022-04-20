@@ -9,5 +9,6 @@
         public string Password { get; set; }
         public DateTime Birthday { get; set; }
         public int Phone { get; set; }
+        public int UserPoints { get; set; }
     }
 }
