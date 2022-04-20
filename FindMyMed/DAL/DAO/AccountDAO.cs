@@ -11,7 +11,8 @@ namespace FindMyMed.DAL
         public bool CreateAccount(Account account)
         {
             bool success = false;
-            String queryString = $"INSERT INTO dbo.Accounts (Email, UserName, Password, Status, Type) VALUES (@Email, @UserName, @Password, @Status, @Type)";
+            int id = 0;
+            String queryString = $"INSERT INTO dbo.Accounts (Email, UserName, Password, Status, Type) VALUES (@Email, @UserName, @Password, @Status, @Type) ​SELECT scope_identity()";
             using (SqlConnection sqlConnection = new SqlConnection(connect))
             {
                 using (SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection))
@@ -25,7 +26,7 @@ namespace FindMyMed.DAL
                     try
                     {
                         sqlConnection.Open();
-                        sqlCommand.ExecuteNonQuery();
+                        id = Convert.ToInt32(sqlCommand.ExecuteScalar());
                         sqlConnection.Close();
                         success = true;
                     }
@@ -36,7 +37,7 @@ namespace FindMyMed.DAL
                 }
                 if (account.Type == Enum.Parse<Types>("User"))
                 {
-                    String queryStringUser = $"INSERT INTO dbo.Users (FirstName, LastName, Email, UserName, Password, Birthday, Phone, VAT, CardNumber) VALUES (@FirstName, @LastName, @Email, @UserName, @Password, @Birthday, @Phone, @VAT, @CardNumber)";
+                    String queryStringUser = $"INSERT INTO dbo.Users (FirstName, LastName, Email, UserName, Password, Birthday, Phone, VAT, UserPoints, AccountId) VALUES (@FirstName, @LastName, @Email, @UserName, @Password, @Birthday, @Phone, @VAT, @UserPoints, @AccountId)";
                     using (SqlCommand sqlCommand = new SqlCommand(queryStringUser, sqlConnection))
                     {
                         User user = new User()
@@ -54,7 +55,8 @@ namespace FindMyMed.DAL
                         sqlCommand.Parameters.Add("@Birthday", System.Data.SqlDbType.DateTime).Value = DateTime.Now;
                         sqlCommand.Parameters.Add("@Phone", System.Data.SqlDbType.Int).Value = 0;
                         sqlCommand.Parameters.Add("@VAT", System.Data.SqlDbType.Int).Value = 0;
-                        sqlCommand.Parameters.Add("@CardNumer", System.Data.SqlDbType.Int).Value = 0;
+                        sqlCommand.Parameters.Add("@UserPoints", System.Data.SqlDbType.Int).Value = 0;
+                        sqlCommand.Parameters.Add("@AccountId", System.Data.SqlDbType.Int).Value = id;
 
                         try
                         {
@@ -71,7 +73,7 @@ namespace FindMyMed.DAL
                 }
                 else if (account.Type == Enum.Parse<Types>("Pharm"))
                 {
-                    String queryStringPharm = $"INSERT INTO dbo.Pharmacies (CompanyName, Email, UserName, Password, Phone, Address, VAT) VALUES (@CompanyName, @Email, @UserName, @Password, @Phone, @Address, @VAT)";
+                    String queryStringPharm = $"INSERT INTO dbo.Pharmacies (CompanyName, Email, UserName, Password, Phone, Address, VAT, AccountId) VALUES (@CompanyName, @Email, @UserName, @Password, @Phone, @Address, @VAT, @AccountId)";
                     using (SqlCommand sqlCommand = new SqlCommand(queryStringPharm, sqlConnection))
                     {
                         Pharmacy pharmacy = new Pharmacy()
@@ -88,6 +90,7 @@ namespace FindMyMed.DAL
                         sqlCommand.Parameters.Add("@Phone", System.Data.SqlDbType.Int).Value = 0;
                         sqlCommand.Parameters.Add("@Address", System.Data.SqlDbType.NVarChar).Value = "";
                         sqlCommand.Parameters.Add("@VAT", System.Data.SqlDbType.Int).Value = 0;
+                        sqlCommand.Parameters.Add("@AccountId", System.Data.SqlDbType.Int).Value = id;
 
                         try
                         {

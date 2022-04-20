@@ -10,7 +10,7 @@ namespace FindMyMed.DAL
 
         public UpdateCartDTO SaveCart(UpdateCartDTO cartDTO)
         {
-            String queryString = $"UPDATE dbo.Carts SET PaymentMethod=@PaymentMethod, TotalPrice=@TotalPrice, UserPoints=@UsedPoints, Status=@Status WHERE Id = 1";
+            String queryString = $"UPDATE dbo.Carts SET PaymentMethod=@PaymentMethod, TotalPrice=@TotalPrice, UserPoints=@UsedPoints, Status=@Status, OrderId=@OrderId WHERE Id = 1";
             using (SqlConnection sqlConnection = new SqlConnection(connect))
             {
                 using (SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection))
@@ -19,6 +19,7 @@ namespace FindMyMed.DAL
                     sqlCommand.Parameters.Add("@TotalPrice", System.Data.SqlDbType.Float).Value = cartDTO.TotalPrice;
                     sqlCommand.Parameters.Add("@UsedPoints", System.Data.SqlDbType.Int).Value = cartDTO.UsedPoints;
                     sqlCommand.Parameters.Add("@Status", System.Data.SqlDbType.NVarChar).Value = cartDTO.Status;
+                    sqlCommand.Parameters.Add("@OrderId", System.Data.SqlDbType.Int).Value = cartDTO.OrderId;
 
                     try
                     {
