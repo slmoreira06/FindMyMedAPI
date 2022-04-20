@@ -8,11 +8,11 @@ namespace FindMyMed.DAL
     {
         String connect = "Server=tcp:test-sql-lesipl-pds.database.windows.net,1433;Initial Catalog=FindMyMed_db;Persist Security Info=False;User ID=Ipca_Server;Password=Soueu1999;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
-        public bool CreateOrder(Order order)
+        public bool CreateOrder(Order order, List<OrderItem> orderItemList)
         {
             bool success = false;
-            String queryString = $"INSERT INTO dbo.Orders (CreationDate, Status) VALUES (@CreationDate, @Status)";
-            String orderItemString = $"INSERT INTO dbo.OrderItems ()";
+            int id = 0;
+            String queryString = $"INSERT INTO dbo.Orders (CreationDate, Status) VALUES (@CreationDate, @Status) ​SELECT scope_identity()";
             using (SqlConnection sqlConnection = new SqlConnection(connect))
             {
                 using (SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection))
@@ -23,7 +23,7 @@ namespace FindMyMed.DAL
                     try
                     {
                         sqlConnection.Open();
-                        sqlCommand.ExecuteNonQuery();
+                        id = Convert.ToInt32(sqlCommand.ExecuteScalar());
                         sqlConnection.Close();
                         success = true;
                     }
@@ -32,18 +32,17 @@ namespace FindMyMed.DAL
                         Console.WriteLine(e.Message);
                     };
                 }
+                String orderItemString = $"INSERT INTO dbo.OrderItems (Quantity, Reference, OrderId, ProductId) VALUES (@Quantity, @Reference, @OrderId, @ProductId)";
+
                 using (SqlCommand sqlCommand = new SqlCommand(orderItemString, sqlConnection))
                 {
-                    OrderItem orderItem = new OrderItem();
-                    List<OrderItem> items = new List<OrderItem>();
-
-
-                    sqlCommand.Parameters.Add("@FirstName", System.Data.SqlDbType.NVarChar).Value = "";
-                    sqlCommand.Parameters.Add("@LastName", System.Data.SqlDbType.NVarChar).Value = "";
-                    sqlCommand.Parameters.Add("@Email", System.Data.SqlDbType.NVarChar).Value = "";
-                    sqlCommand.Parameters.Add("@Phone", System.Data.SqlDbType.Int).Value = 0;
-                    sqlCommand.Parameters.Add("@VAT", System.Data.SqlDbType.Int).Value = 0;
-                    sqlCommand.Parameters.Add("@CardNumer", System.Data.SqlDbType.Int).Value = 0;
+                    foreach(OrderItem item in orderItemList)
+                    {
+                        sqlCommand.Parameters.Add("@Quantity", System.Data.SqlDbType.Int).Value = item.Quantity;
+                        sqlCommand.Parameters.Add("@Reference", System.Data.SqlDbType.NVarChar).Value = item.Reference;
+                        sqlCommand.Parameters.Add("@OrderId", System.Data.SqlDbType.Int).Value = id;
+                        sqlCommand.Parameters.Add("@ProductId", System.Data.SqlDbType.Int).Value = item.ProductId;
+                    }
 
                     try
                     {
@@ -130,12 +129,11 @@ namespace FindMyMed.DAL
 
         public UpdateOrderDTO UpdateOrder(int id, UpdateOrderDTO orderDTO)
         {
-            String queryString = $"UPDATE dbo.Orders SET CreationDate=@CreationDate, Status=@Status WHERE Id = {id}";
+            String queryString = $"UPDATE dbo.Orders SET Status=@Status WHERE Id = {id}";
             using (SqlConnection sqlConnection = new SqlConnection(connect))
             {
                 using (SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection))
                 {
-                    sqlCommand.Parameters.Add("@CreationDate", System.Data.SqlDbType.DateTime).Value = orderDTO.CreationDate;
                     sqlCommand.Parameters.Add("@Status", System.Data.SqlDbType.NVarChar).Value = orderDTO.Status;
 
                     try
