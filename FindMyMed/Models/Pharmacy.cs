@@ -12,8 +12,9 @@ namespace FindMyMed.Models
         public int Phone { get; set; }
         public int VAT { get; set; }
         public string Address { get; set; }
-        [ForeignKey("Account")]
         public int AccountId { get; set; }
+
+        List<Inventory> Inventories { get; set; }
 
         public Pharmacy() { }
     }

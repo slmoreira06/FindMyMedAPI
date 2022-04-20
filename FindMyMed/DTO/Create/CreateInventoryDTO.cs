@@ -1,6 +1,8 @@
-﻿namespace FindMyMed.Models
+﻿using FindMyMed.Models;
+
+namespace FindMyMed.DTO
 {
-    public class Inventory
+    public class CreateInventoryDTO
     {
         public int Id { get; set; }
         public int Quantity { get; set; }
