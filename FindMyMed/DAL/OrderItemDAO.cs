@@ -4,46 +4,20 @@ using Microsoft.Data.SqlClient;
 
 namespace FindMyMed.DAL
 {
-    public class OrderDAO : IOrdersRepository
+    public class OrderItemDAO : IOrderItemsRepository
     {
         String connect = "Server=tcp:test-sql-lesipl-pds.database.windows.net,1433;Initial Catalog=FindMyMed_db;Persist Security Info=False;User ID=Ipca_Server;Password=Soueu1999;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
-        public bool CreateOrder(Order order)
+        public bool CreateOrderItem(OrderItem orderItem)
         {
             bool success = false;
-            String queryString = $"INSERT INTO dbo.Orders (CreationDate, Status) VALUES (@CreationDate, @Status)";
-            String orderItemString = $"INSERT INTO dbo.OrderItems (";
+            String queryString = $"INSERT INTO dbo.OrderItems (Quantity, Reference) VALUES (@Quantity, @Reference)";
             using (SqlConnection sqlConnection = new SqlConnection(connect))
             {
                 using (SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection))
                 {
-                    sqlCommand.Parameters.Add("@CreationDate", System.Data.SqlDbType.NVarChar).Value = order.CreationDate;
-                    sqlCommand.Parameters.Add("@Status", System.Data.SqlDbType.NVarChar).Value = order.Status;
-
-                    try
-                    {
-                        sqlConnection.Open();
-                        sqlCommand.ExecuteNonQuery();
-                        sqlConnection.Close();
-                        success = true;
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    };
-                }
-                using (SqlCommand sqlCommand = new SqlCommand(orderItemString, sqlConnection))
-                {
-                    OrderItem orderItem = new OrderItem();
-                    List<OrderItem> items = new List<OrderItem>();
-
-
-                    sqlCommand.Parameters.Add("@FirstName", System.Data.SqlDbType.NVarChar).Value = "";
-                    sqlCommand.Parameters.Add("@LastName", System.Data.SqlDbType.NVarChar).Value = "";
-                    sqlCommand.Parameters.Add("@Email", System.Data.SqlDbType.NVarChar).Value = "";
-                    sqlCommand.Parameters.Add("@Phone", System.Data.SqlDbType.Int).Value = 0;
-                    sqlCommand.Parameters.Add("@VAT", System.Data.SqlDbType.Int).Value = 0;
-                    sqlCommand.Parameters.Add("@CardNumer", System.Data.SqlDbType.Int).Value = 0;
+                    sqlCommand.Parameters.Add("@Quantity", System.Data.SqlDbType.Int).Value = orderItem.Quantity;
+                    sqlCommand.Parameters.Add("@Reference", System.Data.SqlDbType.NVarChar).Value = orderItem.Reference;
 
                     try
                     {
@@ -61,10 +35,10 @@ namespace FindMyMed.DAL
             return success;
         }
 
-        public IEnumerable<Order> GetOrders()
+        public IEnumerable<OrderItem> GetOrderItems()
         {
-            List<Order> orders = new List<Order>();
-            string sqlStatement = $"SELECT Id, CreationDate, Status FROM dbo.Orders";
+            List<OrderItem> orders = new List<OrderItem>();
+            string sqlStatement = $"SELECT Id, Quantity, Reference FROM dbo.OrderItems";
             using (SqlConnection connection = new SqlConnection(connect))
             {
                 try
@@ -78,7 +52,8 @@ namespace FindMyMed.DAL
                         Order order = new Order();
                         order.Id = reader.GetFieldValue<int>(0);
                         order.CreationDate = reader.GetFieldValue<DateTime>(1);
-                        order.Status = Enum.Parse<OrderStatus>(reader.GetFieldValue<string>(2));
+                        order.TotalPrice = reader.GetFieldValue<float>(2);
+                        order.Status = Enum.Parse<OrderStatus>(reader.GetFieldValue<string>(3));
                         orders.Add(order);
                     }
                     // Call Close when done reading.
@@ -96,10 +71,10 @@ namespace FindMyMed.DAL
             return orders;
         }
 
-        public Order GetOrderById(int id)
+        public OrderItem GetOrderItemById(int id)
         {
             Order order = new Order();
-            string sqlStatement = $"SELECT Id, CreationDate, Status FROM dbo.Orders WHERE Id = {id}";
+            string sqlStatement = $"SELECT Id, CreationDate, TotalPrice, Status FROM dbo.Orders WHERE Id = {id}";
             using (SqlConnection connection = new SqlConnection(connect))
             {
                 try
@@ -112,7 +87,8 @@ namespace FindMyMed.DAL
                     {
                         order.Id = reader.GetFieldValue<int>(0);
                         order.CreationDate = reader.GetFieldValue<DateTime>(1);
-                        order.Status = Enum.Parse<OrderStatus>(reader.GetFieldValue<string>(2));
+                        order.TotalPrice = reader.GetFieldValue<float>(2);
+                        order.Status = Enum.Parse<OrderStatus>(reader.GetFieldValue<string>(3));
                     }
                     reader.Close();
                 }
@@ -128,14 +104,15 @@ namespace FindMyMed.DAL
             return order;
         }
 
-        public UpdateOrderDTO UpdateOrder(int id, UpdateOrderDTO orderDTO)
+        public UpdateOrderItemDTO UpdateOrderItem(int id, UpdateOrderItemDTO orderItemDTO)
         {
-            String queryString = $"UPDATE dbo.Orders SET CreationDate=@CreationDate, Status=@Status WHERE Id = {id}";
+            String queryString = $"UPDATE dbo.Orders SET CreationDate=@CreationDate, TotalPrice=@TotalPrice, Status=@Status WHERE Id = {id}";
             using (SqlConnection sqlConnection = new SqlConnection(connect))
             {
                 using (SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection))
                 {
                     sqlCommand.Parameters.Add("@CreationDate", System.Data.SqlDbType.DateTime).Value = orderDTO.CreationDate;
+                    sqlCommand.Parameters.Add("@TotalPrice", System.Data.SqlDbType.Float).Value = orderDTO.TotalPrice;
                     sqlCommand.Parameters.Add("@Status", System.Data.SqlDbType.NVarChar).Value = orderDTO.Status;
 
                     try
