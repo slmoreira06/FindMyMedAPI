@@ -15,6 +15,8 @@ using AutoMapper;
 using FindMyMed.DAL;
 using FindMyMed.DTO;
 using FindMyMed.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FindMyMed.Controllers
@@ -35,6 +37,7 @@ namespace FindMyMed.Controllers
 
         [HttpGet]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<IEnumerable<ReadAccountDTO>> GetAccounts()
         {
             var accounts = repository.GetAccounts();
@@ -44,6 +47,7 @@ namespace FindMyMed.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<ReadAccountDTO> GetAccountById(int id)
         {
             var account = repository.GetAccountById(id);
@@ -70,6 +74,7 @@ namespace FindMyMed.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<ReadAccountDTO> DeactivateAccount(int id, UpdateAccountDTO acc)
         {
             if (acc is null)

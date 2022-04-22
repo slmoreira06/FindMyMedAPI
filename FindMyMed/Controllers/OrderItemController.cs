@@ -15,6 +15,8 @@ using AutoMapper;
 using FindMyMed.DAL;
 using FindMyMed.DTO;
 using FindMyMed.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FindMyMed.Controllers
@@ -35,6 +37,7 @@ namespace FindMyMed.Controllers
 
         [HttpGet]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<IEnumerable<ReadOrderItemDTO>> GetOrderItemsByOrder(int id)
         {
             var item = repository.GetOrderItemsByOrder(id);
@@ -44,6 +47,7 @@ namespace FindMyMed.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<ReadOrderItemDTO> GetOrderItemById(int id)
         {
             var item = repository.GetOrderItemById(id);
@@ -57,6 +61,7 @@ namespace FindMyMed.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<ReadOrderItemDTO> UpdateOrderItem(int id, UpdateOrderItemDTO item)
         {
             if (item is null)

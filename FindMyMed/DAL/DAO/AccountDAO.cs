@@ -182,9 +182,9 @@ namespace FindMyMed.DAL
             return account;
         }
 
-        public bool GetAccount(LoginAccount loginAccount)
+        public Account GetAccount(LoginAccount loginAccount)
         {
-            bool success = false;
+            Account acc = new Account();
             string sqlStatement = $"SELECT Id, Email, Password FROM dbo.Accounts WHERE Email = '{loginAccount.Email}'";
             using (SqlConnection connection = new SqlConnection(connect))
             {
@@ -198,12 +198,10 @@ namespace FindMyMed.DAL
                     {
                         if (loginAccount.Password == reader.GetFieldValue<string>(2) && loginAccount.Status == StatusEnum.Activo)
                         {
-                            loginAccount.Id = reader.GetFieldValue<int>(0);
-                            loginAccount.Email = reader.GetFieldValue<string>(1);
-                            loginAccount.Password = reader.GetFieldValue<string>(2);
-                            success = true;
+                            acc.Id = reader.GetFieldValue<int>(0);
+                            acc.Email = reader.GetFieldValue<string>(1);
+                            acc.Password = reader.GetFieldValue<string>(2);
                         }
-                        else success = false;
                     }
                     reader.Close();
                 }
@@ -216,7 +214,7 @@ namespace FindMyMed.DAL
                     connection.Close();
                 }
             }
-            return success;
+            return acc;
         }
 
         public UpdateAccountDTO DeactivateAccount(int id, UpdateAccountDTO account)

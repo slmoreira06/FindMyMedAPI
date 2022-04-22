@@ -15,6 +15,8 @@ using AutoMapper;
 using FindMyMed.DAL;
 using FindMyMed.DTO;
 using FindMyMed.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FindMyMed.Controllers
@@ -57,6 +59,7 @@ namespace FindMyMed.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<ReadProductDTO> CreateProduct(CreateProductDTO prodDTO)
         {
             Product prod = mapper.Map<Product>(prodDTO);
@@ -70,6 +73,7 @@ namespace FindMyMed.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<ReadProductDTO> UpdateProduct(int id, UpdateProductDTO prod)
         {
             if (prod is null)

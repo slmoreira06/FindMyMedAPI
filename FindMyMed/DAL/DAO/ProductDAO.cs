@@ -17,7 +17,7 @@ namespace FindMyMed.DAL
                 using (SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection))
                 {
                     sqlCommand.Parameters.Add("@Name", System.Data.SqlDbType.NVarChar).Value = product.Name;
-                    sqlCommand.Parameters.Add("@Price", System.Data.SqlDbType.Int).Value = product.Price;
+                    sqlCommand.Parameters.Add("@Price", System.Data.SqlDbType.Float).Value = product.Price;
                     sqlCommand.Parameters.Add("@Description", System.Data.SqlDbType.NVarChar).Value = product.Description;
                     sqlCommand.Parameters.Add("@Reference", System.Data.SqlDbType.NVarChar).Value = product.Reference;
                    
@@ -54,7 +54,7 @@ namespace FindMyMed.DAL
                         Product prd = new Product();
                         prd.Id = reader.GetFieldValue<int>(0);
                         prd.Name = reader.GetFieldValue<string>(1);
-                        prd.Price = reader.GetFieldValue<float>(2);
+                        prd.Price = reader.GetFieldValue<double>(2);
                         prd.Description = reader.GetFieldValue<string>(3);
                         prd.Reference = reader.GetFieldValue<string>(4);
                         products.Add(prd);
@@ -90,7 +90,7 @@ namespace FindMyMed.DAL
                     {
                         product.Id = reader.GetFieldValue<int>(0);
                         product.Name = reader.GetFieldValue<string>(1);
-                        product.Price = reader.GetFieldValue<float>(2);
+                        product.Price = reader.GetFieldValue<double>(2);
                         product.Description = reader.GetFieldValue<string>(3);
                         product.Reference = reader.GetFieldValue<string>(4);
                     }
