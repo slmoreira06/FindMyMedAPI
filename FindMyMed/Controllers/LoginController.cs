@@ -28,26 +28,32 @@ namespace FindMyMed.Controllers
                 if (string.IsNullOrEmpty(loginDTO.Email) ||
                 string.IsNullOrEmpty(loginDTO.Password))
                     return BadRequest("Username and/or Password not specified");
-                if (repository.GetAccount(loginDTO) == true)
+                if (repository.GetAccount(loginDTO) != null)
                 {
+                    var claims = new[]
+                    {
+                        new Claim(ClaimTypes.Email, loginDTO.Email)
+                    };
+                    var token = new JwtSecurityToken
+                   (
+                       issuer: "http://localhost:5000",
+                       audience: "http://localhost:4200",
+                       claims: claims,
+                       expires: DateTime.UtcNow.AddDays(60),
+                       notBefore: DateTime.UtcNow,
+                       signingCredentials: new SigningCredentials(
+                           new SymmetricSecurityKey(Encoding.UTF8.GetBytes("DhftOS5uphK3vmCJQrexST1RsyjZBjXWRgJMFPU4")),
+                           SecurityAlgorithms.HmacSha256)
+                   );
 
-                    var secretKey = new SymmetricSecurityKey
-                    (Encoding.UTF8.GetBytes("thisisasecretkey@123"));
-                    var signinCredentials = new SigningCredentials
-                   (secretKey, SecurityAlgorithms.HmacSha256);
-                    var jwtSecurityToken = new JwtSecurityToken(
-                        issuer: "ABCXYZ",
-                        audience: "http://localhost:51398",
-                        claims: new List<Claim>(),
-                        expires: DateTime.Now.AddMinutes(10),
-                        signingCredentials: signinCredentials
-                    );
-                    return Ok(new JwtSecurityTokenHandler().
-                    WriteToken(jwtSecurityToken));
+                    var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
+                    return Ok(tokenString);
                 }
             }
             catch { return BadRequest("Username and/or Password not specified"); }
             return Unauthorized();
         }
     }
+
 }

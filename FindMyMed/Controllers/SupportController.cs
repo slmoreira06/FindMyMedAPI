@@ -2,6 +2,8 @@
 using FindMyMed.DAL;
 using FindMyMed.DTO;
 using FindMyMed.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FindMyMed.Controllers
@@ -21,6 +23,7 @@ namespace FindMyMed.Controllers
 
         [HttpGet]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<IEnumerable<ReadSupportDTO>> GetSupports()
         {
             var sup = repository.GetSupports();
@@ -30,6 +33,7 @@ namespace FindMyMed.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<ReadSupportDTO> GetSupportById(int id)
         {
             var sup = repository.GetSupportById(id);

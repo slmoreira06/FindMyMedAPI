@@ -7,7 +7,7 @@ namespace FindMyMed.DAL
     {
         bool CreateAccount(Account account);
         Account GetAccountById(int id);
-        bool GetAccount(LoginAccount loginAccount);
+        Account GetAccount(LoginAccount loginAccount);
         IEnumerable<Account> GetAccounts();
         UpdateAccountDTO DeactivateAccount(int id, UpdateAccountDTO account);
 

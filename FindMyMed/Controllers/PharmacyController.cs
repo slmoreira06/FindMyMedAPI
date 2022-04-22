@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using FindMyMed.DAL;
 using FindMyMed.DTO;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FindMyMed.Controllers
@@ -29,6 +31,7 @@ namespace FindMyMed.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<ReadPharmDTO> GetPharmById(int id)
         {
             var pharm = repository.GetPharmById(id);
@@ -42,6 +45,7 @@ namespace FindMyMed.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<ReadPharmDTO> UpdatePharmProfile(int id, UpdatePharmDTO pharm)
         {
             if (pharm is null)
