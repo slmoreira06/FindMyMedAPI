@@ -8,10 +8,10 @@ namespace FindMyMed.DAL
     {
         String connect = "Server=tcp:test-sql-lesipl-pds.database.windows.net,1433;Initial Catalog=FindMyMed_db;Persist Security Info=False;User ID=Ipca_Server;Password=Soueu1999;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
-          public IEnumerable<OrderItem> GetOrderItemsByOrder(int id)
+        public List<OrderItem> GetOrderItemsByOrder(int id)
         {
             List<OrderItem> orders = new List<OrderItem>();
-            string sqlStatement = $"SELECT Id, Quantity, Reference, ProductId FROM dbo.OrderItems WHERE OrderId = {id}";
+            string sqlStatement = $"SELECT Id, Quantity, Reference, ProductId, OrderId FROM dbo.OrderItems WHERE OrderId = {id}";
             using (SqlConnection connection = new SqlConnection(connect))
             {
                 try
@@ -27,6 +27,7 @@ namespace FindMyMed.DAL
                         orderItem.Quantity = reader.GetFieldValue<int>(1);
                         orderItem.Reference = reader.GetFieldValue<string>(2);
                         orderItem.ProductId = reader.GetFieldValue<int>(3);
+                        orderItem.OrderId = id;
                         orders.Add(orderItem);
                     }
                     // Call Close when done reading.
@@ -86,7 +87,7 @@ namespace FindMyMed.DAL
                 using (SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection))
                 {
                     sqlCommand.Parameters.Add("@Quantity", System.Data.SqlDbType.Int).Value = orderItemDTO.Quantity;
-            
+
                     try
                     {
                         sqlConnection.Open();

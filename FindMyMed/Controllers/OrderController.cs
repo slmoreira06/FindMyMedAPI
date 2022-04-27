@@ -25,14 +25,15 @@ namespace FindMyMed.Controllers
     [ApiController]
     public class OrderController : Controller
     {
-
         private readonly IOrdersRepository repository;
+        private readonly IOrderItemsRepository itemsRepository;
         private readonly IMapper mapper;
 
-        public OrderController(IOrdersRepository repository, IMapper mapper)
+        public OrderController(IOrdersRepository repository, IMapper mapper, IOrderItemsRepository itemsRepository)
         {
             this.repository = repository;
             this.mapper = mapper;
+            this.itemsRepository = itemsRepository;
         }
 
         [HttpGet]
@@ -41,6 +42,11 @@ namespace FindMyMed.Controllers
         public ActionResult<IEnumerable<ReadOrderDTO>> GetOrders()
         {
             var order = repository.GetOrders();
+            
+            foreach (Order orderLine in order)
+            {
+                orderLine.Items = itemsRepository.GetOrderItemsByOrder(orderLine.Id);
+            }
             return Ok(mapper.Map<IEnumerable<ReadOrderDTO>>(order));
         }
 
@@ -65,9 +71,8 @@ namespace FindMyMed.Controllers
         public ActionResult<ReadOrderDTO> CreateOrder(CreateOrderDTO orderDTO)
         {
             Order order = mapper.Map<Order>(orderDTO);
-            List<OrderItem> orderItems = new List<OrderItem>();
-            repository.CreateOrder(order, orderItems);
-
+            repository.CreateOrder(order);
+            order.Items = itemsRepository.GetOrderItemsByOrder(order.Id);
             var orderRead = mapper.Map<ReadOrderDTO>(order);
 
             return CreatedAtAction(nameof(GetOrders), new { id = orderRead.Id }, orderRead);

@@ -20,7 +20,7 @@ namespace FindMyMed.DAL
                     sqlCommand.Parameters.Add("@Price", System.Data.SqlDbType.Float).Value = product.Price;
                     sqlCommand.Parameters.Add("@Description", System.Data.SqlDbType.NVarChar).Value = product.Description;
                     sqlCommand.Parameters.Add("@Reference", System.Data.SqlDbType.NVarChar).Value = product.Reference;
-                   
+
                     try
                     {
                         sqlConnection.Open();

@@ -1,5 +1,4 @@
-﻿using FindMyMed.DTO;
-using FindMyMed.Models;
+﻿using FindMyMed.Models;
 using Microsoft.Data.SqlClient;
 
 namespace FindMyMed.DAL

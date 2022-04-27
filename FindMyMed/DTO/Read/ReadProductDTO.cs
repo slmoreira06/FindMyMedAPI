@@ -1,6 +1,4 @@
-﻿using FindMyMed.Models;
-
-namespace FindMyMed.DTO
+﻿namespace FindMyMed.DTO
 {
     public class ReadProductDTO
     {

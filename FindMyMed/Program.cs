@@ -1,13 +1,8 @@
 using FindMyMed.DAL;
-using Microsoft.OpenApi.Models;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
-using FindMyMed.Models;
-using FindMyMed.DTO;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
 

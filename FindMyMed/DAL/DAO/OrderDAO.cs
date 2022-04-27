@@ -6,18 +6,20 @@ namespace FindMyMed.DAL
 {
     public class OrderDAO : IOrdersRepository
     {
+        private readonly IOrderItemsRepository itemsRepository;
         String connect = "Server=tcp:test-sql-lesipl-pds.database.windows.net,1433;Initial Catalog=FindMyMed_db;Persist Security Info=False;User ID=Ipca_Server;Password=Soueu1999;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
-        public bool CreateOrder(Order order, List<OrderItem> orderItemList)
+        public bool CreateOrder(Order order)
         {
             bool success = false;
             int id = 0;
-            String queryString = $"INSERT INTO dbo.Orders (CreationDate, Status) VALUES (@CreationDate, @Status) ​SELECT scope_identity()";
+            String queryString = $"INSERT INTO dbo.Orders (CreationDate, Status) VALUES (@CreationDate, @Status); SELECT SCOPE_IDENTITY()";
+            String orderItemString = "INSERT INTO dbo.OrderItems (Quantity, OrderId, ProductId, Reference) VALUES (@Quantity, @OrderId, @ProductId, (SELECT Reference FROM dbo.Products WHERE Id = @ProductId))";
             using (SqlConnection sqlConnection = new SqlConnection(connect))
             {
                 using (SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection))
                 {
-                    sqlCommand.Parameters.Add("@CreationDate", System.Data.SqlDbType.NVarChar).Value = order.CreationDate;
+                    sqlCommand.Parameters.Add("@CreationDate", System.Data.SqlDbType.DateTime).Value = order.CreationDate;
                     sqlCommand.Parameters.Add("@Status", System.Data.SqlDbType.NVarChar).Value = order.Status;
 
                     try
@@ -31,30 +33,27 @@ namespace FindMyMed.DAL
                     {
                         Console.WriteLine(e.Message);
                     };
-                }
-                String orderItemString = $"INSERT INTO dbo.OrderItems (Quantity, Reference, OrderId, ProductId) VALUES (@Quantity, @Reference, @OrderId, @ProductId)";
-
-                using (SqlCommand sqlCommand = new SqlCommand(orderItemString, sqlConnection))
-                {
-                    foreach(OrderItem item in orderItemList)
+                    using (SqlCommand command = new SqlCommand(orderItemString, sqlConnection))
                     {
-                        sqlCommand.Parameters.Add("@Quantity", System.Data.SqlDbType.Int).Value = item.Quantity;
-                        sqlCommand.Parameters.Add("@Reference", System.Data.SqlDbType.NVarChar).Value = item.Reference;
-                        sqlCommand.Parameters.Add("@OrderId", System.Data.SqlDbType.Int).Value = id;
-                        sqlCommand.Parameters.Add("@ProductId", System.Data.SqlDbType.Int).Value = item.ProductId;
+                        foreach (OrderItem orderItem in order.Items)
+                        {
+                            command.Parameters.Add("@Quantity", System.Data.SqlDbType.Int).Value = orderItem.Quantity;
+                            command.Parameters.Add("@ProductId", System.Data.SqlDbType.Int).Value = orderItem.ProductId;
+                            command.Parameters.Add("@OrderId", System.Data.SqlDbType.Int).Value = id;
+                        }
+                        try
+                        {
+                            sqlConnection.Open();
+                            command.ExecuteNonQuery();
+                            order.Id = id;
+                            sqlConnection.Close();
+                            success = true;
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                        };
                     }
-
-                    try
-                    {
-                        sqlConnection.Open();
-                        sqlCommand.ExecuteNonQuery();
-                        sqlConnection.Close();
-                        success = true;
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    };
                 }
             }
             return success;

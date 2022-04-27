@@ -26,7 +26,6 @@ namespace FindMyMed.DAL
             CreateMap<UpdateOrderDTO, Order>();
 
             CreateMap<OrderItem, ReadOrderItemDTO>();
-            CreateMap<CreateOrderItemDTO, OrderItem>();
             CreateMap<OrderItem, UpdateOrderItemDTO>();
             CreateMap<UpdateOrderItemDTO, OrderItem>();
 
