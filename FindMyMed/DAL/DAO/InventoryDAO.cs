@@ -7,7 +7,7 @@ namespace FindMyMed.DAL
     public class InventoryDAO : IInventoriesRepository
     {
         String connect = "Server=tcp:test-sql-lesipl-pds.database.windows.net,1433;Initial Catalog=FindMyMed_db;Persist Security Info=False;User ID=Ipca_Server;Password=Soueu1999;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-       
+
         public bool CreateInventory(Inventory inventory)
         {
             bool success = false;
@@ -19,7 +19,7 @@ namespace FindMyMed.DAL
                     sqlCommand.Parameters.Add("@Quantity", System.Data.SqlDbType.NVarChar).Value = inventory.Quantity;
                     sqlCommand.Parameters.Add("@ProductId", System.Data.SqlDbType.Int).Value = inventory.ProductId;
                     sqlCommand.Parameters.Add("@PharmacyId", System.Data.SqlDbType.Int).Value = inventory.PharmacyId;
-                   
+
                     try
                     {
                         sqlConnection.Open();

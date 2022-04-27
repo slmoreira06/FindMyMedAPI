@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace FindMyMed.Models
+﻿namespace FindMyMed.Models
 {
     public class User
     {

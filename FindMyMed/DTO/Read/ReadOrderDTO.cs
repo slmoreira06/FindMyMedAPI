@@ -6,8 +6,7 @@ namespace FindMyMed.DTO
     {
         public int Id { get; set; }
         public DateTime CreationDate { get; set; }
-        public float TotalPrice { get; set; }
         public OrderStatus Status { get; set; }
-        public List<OrderItem> Items { get; set; }  
+        public List<OrderItem> Items { get; set; }
     }
 }

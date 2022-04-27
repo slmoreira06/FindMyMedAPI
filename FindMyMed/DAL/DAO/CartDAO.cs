@@ -1,5 +1,4 @@
 ﻿using FindMyMed.DTO;
-using FindMyMed.Models;
 using Microsoft.Data.SqlClient;
 
 namespace FindMyMed.DAL
@@ -10,7 +9,7 @@ namespace FindMyMed.DAL
 
         public UpdateCartDTO SaveCart(UpdateCartDTO cartDTO)
         {
-            String queryString = $"UPDATE dbo.Carts SET PaymentMethod=@PaymentMethod, TotalPrice=@TotalPrice, UserPoints=@UsedPoints, Status=@Status, OrderId=@OrderId WHERE Id = 1";
+            String queryString = $"UPDATE dbo.Carts SET PaymentMethod=@PaymentMethod, TotalPrice=@TotalPrice, UsedPoints=@UsedPoints, Status=@Status, OrderId=@OrderId WHERE Id = 1";
             using (SqlConnection sqlConnection = new SqlConnection(connect))
             {
                 using (SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection))

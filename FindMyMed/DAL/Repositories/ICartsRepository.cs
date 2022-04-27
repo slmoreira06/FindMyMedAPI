@@ -1,5 +1,4 @@
 ﻿using FindMyMed.DTO;
-using FindMyMed.Models;
 
 namespace FindMyMed.DAL
 {

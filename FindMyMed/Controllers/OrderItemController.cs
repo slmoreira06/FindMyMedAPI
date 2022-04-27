@@ -14,7 +14,6 @@
 using AutoMapper;
 using FindMyMed.DAL;
 using FindMyMed.DTO;
-using FindMyMed.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

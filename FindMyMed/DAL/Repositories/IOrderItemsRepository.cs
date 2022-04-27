@@ -6,7 +6,7 @@ namespace FindMyMed.DAL
     public interface IOrderItemsRepository
     {
         OrderItem GetOrderItemById(int id);
-        IEnumerable<OrderItem> GetOrderItemsByOrder(int id);
+        List<OrderItem> GetOrderItemsByOrder(int id);
         UpdateOrderItemDTO UpdateOrderItem(int id, UpdateOrderItemDTO orderItemDTO);
     }
 }

@@ -10,7 +10,7 @@ namespace FindMyMed.DAL
         public IEnumerable<User> GetUsers()
         {
             List<User> users = new List<User>();
-            string sqlStatement = $"SELECT Id, FirstName, LastName, Email, UserName, Password, Birthday, Phone, VAT FROM dbo.Users";
+            string sqlStatement = $"SELECT Id, FirstName, LastName, Email, UserName, Password, Birthday, Phone, VAT, UserPoints FROM dbo.Users";
             using (SqlConnection connection = new SqlConnection(connect))
             {
                 try
@@ -31,6 +31,7 @@ namespace FindMyMed.DAL
                         user.Birthday = reader.GetFieldValue<DateTime>(6);
                         user.Phone = reader.GetFieldValue<int>(7);
                         user.VAT = reader.GetFieldValue<int>(8);
+                        user.UserPoints = reader.GetFieldValue<int>(9);
                         users.Add(user);
                     }
                     // Call Close when done reading.
@@ -51,7 +52,7 @@ namespace FindMyMed.DAL
         public User GetUserById(int id)
         {
             User user = new User();
-            string sqlStatement = $"SELECT Id, FirstName, LastName, Email, UserName, Password, Birthday, Phone, VAT FROM dbo.Users WHERE Id = {id}";
+            string sqlStatement = $"SELECT Id, FirstName, LastName, Email, UserName, Password, Birthday, Phone, VAT, UserPoints FROM dbo.Users WHERE Id = {id}";
             using (SqlConnection connection = new SqlConnection(connect))
             {
                 try
@@ -71,6 +72,7 @@ namespace FindMyMed.DAL
                         user.Birthday = reader.GetFieldValue<DateTime>(6);
                         user.Phone = reader.GetFieldValue<int>(7);
                         user.VAT = reader.GetFieldValue<int>(8);
+                        user.UserPoints = reader.GetFieldValue<int>(9);
                     }
                     reader.Close();
                 }
@@ -88,7 +90,7 @@ namespace FindMyMed.DAL
 
         public UpdateUserDTO UpdateUserProfile(int id, UpdateUserDTO userDTO)
         {
-            String queryString = $"UPDATE dbo.Users SET FirstName=@FirstName, LastName=@LastName, UserName=@UserName, Password=@Password, Birthday=@Birthday, Phone=@Phone WHERE Id = {id}";
+            String queryString = $"UPDATE dbo.Users SET FirstName=@FirstName, LastName=@LastName, UserName=@UserName, Password=@Password, Birthday=@Birthday, Phone=@Phone, VAT=@VAT, UserPoints=@UserPoints WHERE Id = {id}";
             using (SqlConnection sqlConnection = new SqlConnection(connect))
             {
                 using (SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection))
@@ -99,6 +101,8 @@ namespace FindMyMed.DAL
                     sqlCommand.Parameters.Add("@Password", System.Data.SqlDbType.NVarChar).Value = userDTO.Password;
                     sqlCommand.Parameters.Add("@Birthday", System.Data.SqlDbType.DateTime).Value = userDTO.Birthday;
                     sqlCommand.Parameters.Add("@Phone", System.Data.SqlDbType.Int).Value = userDTO.Phone;
+                    sqlCommand.Parameters.Add("@VAT", System.Data.SqlDbType.Int).Value = userDTO.VAT;
+                    sqlCommand.Parameters.Add("@UserPoints", System.Data.SqlDbType.Int).Value = userDTO.UserPoints;
 
                     try
                     {
