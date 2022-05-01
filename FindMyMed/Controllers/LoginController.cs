@@ -23,36 +23,44 @@ namespace FindMyMed.Controllers
         [HttpPost, Route("login")]
         public IActionResult Login(LoginAccount loginDTO)
         {
-            try
+
+            var issuer = "http://localhost:5000";
+            var audience = "http://localhost:4200";
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("DhftOS5uphK3vmCJQrexST1RsyjZBjXWRgJMFPU4"));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            // Now its ime to define the jwt token which will be responsible of creating our tokens
+            var jwtTokenHandler = new JwtSecurityTokenHandler();
+
+            // We get our secret from the appsettings
+            var key = Encoding.ASCII.GetBytes("DhftOS5uphK3vmCJQrexST1RsyjZBjXWRgJMFPU4");
+            if (string.IsNullOrEmpty(loginDTO.Email) ||
+            string.IsNullOrEmpty(loginDTO.Password))
+                return BadRequest("Username and/or Password not specified");
+            if (repository.GetAccount(loginDTO) != null)
             {
-                if (string.IsNullOrEmpty(loginDTO.Email) ||
-                string.IsNullOrEmpty(loginDTO.Password))
-                    return BadRequest("Username and/or Password not specified");
-                if (repository.GetAccount(loginDTO) != null)
+                var tokenDescriptor = new SecurityTokenDescriptor
                 {
-                    var claims = new[]
-                    {
-                        new Claim(ClaimTypes.Email, loginDTO.Email)
-                    };
-                    var token = new JwtSecurityToken
-                   (
-                       issuer: "http://localhost:5000",
-                       audience: "http://localhost:4200",
-                       claims: claims,
-                       expires: DateTime.UtcNow.AddDays(60),
-                       notBefore: DateTime.UtcNow,
-                       signingCredentials: new SigningCredentials(
-                           new SymmetricSecurityKey(Encoding.UTF8.GetBytes("DhftOS5uphK3vmCJQrexST1RsyjZBjXWRgJMFPU4")),
-                           SecurityAlgorithms.HmacSha256)
-                   );
+                    Subject = new ClaimsIdentity(new[]
+                {
+                            new Claim(JwtRegisteredClaimNames.Email, loginDTO.Email),
+                            new Claim(JwtRegisteredClaimNames.Sub, loginDTO.Email),
+                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                        }),
 
-                    var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+                    Expires = DateTime.UtcNow.AddHours(6),
+                    Audience = audience,
+                    Issuer = issuer,
+                    // here we are adding the encryption alogorithim information which will be used to decrypt our token
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
+                };
+                var token = jwtTokenHandler.CreateToken(tokenDescriptor);
+                var tokenString = jwtTokenHandler.WriteToken(token);
 
-                    return Ok(tokenString);
-                }
+                return Ok(tokenString);
             }
-            catch { return BadRequest("Username and/or Password not specified"); }
-            return Unauthorized();
+            else
+                return Unauthorized();
         }
     }
 
