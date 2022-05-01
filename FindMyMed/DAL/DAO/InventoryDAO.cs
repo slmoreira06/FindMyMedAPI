@@ -72,10 +72,10 @@ namespace FindMyMed.DAL
             return inventories;
         }
 
-        public Inventory GetInventoryById(int id)
+        public Inventory GetInventoryByProduct(int id)
         {
             Inventory inv = new Inventory();
-            string sqlStatement = $"SELECT Id, Quantity, ProductId, PharmacyId FROM dbo.Inventories WHERE Id = {id}";
+            string sqlStatement = $"SELECT Id, Quantity, ProductId, PharmacyId FROM dbo.Inventories WHERE ProductId = {id}";
             using (SqlConnection connection = new SqlConnection(connect))
             {
                 try
@@ -88,7 +88,7 @@ namespace FindMyMed.DAL
                     {
                         inv.Id = reader.GetFieldValue<int>(0);
                         inv.Quantity = reader.GetFieldValue<int>(1);
-                        inv.ProductId = reader.GetFieldValue<int>(2);
+                        inv.ProductId = id;
                         inv.PharmacyId = reader.GetFieldValue<int>(3);
                     }
                     reader.Close();
@@ -104,9 +104,10 @@ namespace FindMyMed.DAL
             }
             return inv;
         }
+
         public UpdateInventoryDTO UpdateInventory(int id, UpdateInventoryDTO inventoryDTO)
         {
-            String queryString = $"UPDATE dbo.Products SET Quantity=@Quantity WHERE Id = {id}";
+            String queryString = $"UPDATE dbo.Inventories SET Quantity=@Quantity WHERE Id = {id}";
             using (SqlConnection sqlConnection = new SqlConnection(connect))
             {
                 using (SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection))

@@ -88,6 +88,45 @@ namespace FindMyMed.DAL
             return user;
         }
 
+        public User GetUserByEmail(string email)
+        {
+            User user = new User();
+            string sqlStatement = $"SELECT Id, FirstName, LastName, Email, UserName, Password, Birthday, Phone, VAT, UserPoints FROM dbo.Users WHERE Email = '{email}'";
+            using (SqlConnection connection = new SqlConnection(connect))
+            {
+                try
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(sqlStatement, connection);
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        user.Id = reader.GetFieldValue<int>(0);
+                        user.FirstName = reader.GetFieldValue<string>(1);
+                        user.LastName = reader.GetFieldValue<string>(2);
+                        user.Email = reader.GetFieldValue<string>(3);
+                        user.UserName = reader.GetFieldValue<string>(4);
+                        user.Password = reader.GetFieldValue<string>(5);
+                        user.Birthday = reader.GetFieldValue<DateTime>(6);
+                        user.Phone = reader.GetFieldValue<int>(7);
+                        user.VAT = reader.GetFieldValue<int>(8);
+                        user.UserPoints = reader.GetFieldValue<int>(9);
+                    }
+                    reader.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            return user;
+        }
+
         public UpdateUserDTO UpdateUserProfile(int id, UpdateUserDTO userDTO)
         {
             String queryString = $"UPDATE dbo.Users SET FirstName=@FirstName, LastName=@LastName, UserName=@UserName, Password=@Password, Birthday=@Birthday, Phone=@Phone, VAT=@VAT, UserPoints=@UserPoints WHERE Id = {id}";

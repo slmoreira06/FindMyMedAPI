@@ -34,9 +34,9 @@ namespace FindMyMed.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public ActionResult<ReadInventoryDTO> GetInventoryById(int id)
+        public ActionResult<ReadInventoryDTO> GetInventoryByProduct(int id)
         {
-            var inv = repository.GetInventoryById(id);
+            var inv = repository.GetInventoryByProduct(id);
 
             if (inv is null)
                 return NotFound();
