@@ -59,7 +59,7 @@ namespace FindMyMed.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Pharm, Admin")]
         public ActionResult<ReadProductDTO> CreateProduct(CreateProductDTO prodDTO)
         {
             Product prod = mapper.Map<Product>(prodDTO);
@@ -73,7 +73,7 @@ namespace FindMyMed.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Pharm, Admin")]
         public ActionResult<ReadProductDTO> UpdateProduct(int id, UpdateProductDTO prod)
         {
             if (prod is null)

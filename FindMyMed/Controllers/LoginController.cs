@@ -20,7 +20,7 @@ namespace FindMyMed.Controllers
             this.repository = repository;
         }
 
-        [HttpPost, Route("login")]
+        [HttpPost]
         public IActionResult Login(LoginAccount loginDTO)
         {
 
@@ -37,14 +37,16 @@ namespace FindMyMed.Controllers
             if (string.IsNullOrEmpty(loginDTO.Email) ||
             string.IsNullOrEmpty(loginDTO.Password))
                 return BadRequest("Username and/or Password not specified");
-            if (repository.GetAccount(loginDTO) != null)
+            var account = repository.GetAccount(loginDTO);
+            if (account != null)
             {
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(new[]
                 {
-                            new Claim(JwtRegisteredClaimNames.Email, loginDTO.Email),
-                            new Claim(JwtRegisteredClaimNames.Sub, loginDTO.Email),
+                            new Claim(JwtRegisteredClaimNames.Email, account.Email),
+                            new Claim(JwtRegisteredClaimNames.Sub, account.Email),
+                            new Claim(ClaimTypes.Role, account.Type.ToString()),
                             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                         }),
 

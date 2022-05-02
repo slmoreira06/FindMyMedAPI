@@ -23,7 +23,7 @@ namespace FindMyMed.Controllers
 
         [HttpGet]
         [ProducesResponseType(200)]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Pharm, Admin")]
         public ActionResult<IEnumerable<ReadInventoryDTO>> GetInventories()
         {
             var inventories = repository.GetInventories();
@@ -33,7 +33,7 @@ namespace FindMyMed.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Pharm, Admin")]
         public ActionResult<ReadInventoryDTO> GetInventoryByProduct(int id)
         {
             var inv = repository.GetInventoryByProduct(id);
@@ -47,7 +47,7 @@ namespace FindMyMed.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Pharm, Admin")]
         public ActionResult<ReadInventoryDTO> CreateInventory(CreateInventoryDTO invDTO)
         {
             Inventory inv = mapper.Map<Inventory>(invDTO);
@@ -61,7 +61,7 @@ namespace FindMyMed.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Pharm, Admin")]
         public ActionResult<ReadInventoryDTO> UpdateInventory(int id, UpdateInventoryDTO inv)
         {
             if (inv is null)
