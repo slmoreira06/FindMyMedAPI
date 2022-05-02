@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace FindMyMed.Models
+﻿namespace FindMyMed.Models
 {
     public class Account
     {
@@ -23,9 +21,8 @@ namespace FindMyMed.Models
     }
     public enum Types
     {
-        [Display(Name = "Utilizador")]
         User,
-        [Display(Name = "Farmácia")]
         Pharm,
+        Admin
     }
 }

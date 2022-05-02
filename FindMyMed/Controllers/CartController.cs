@@ -39,7 +39,7 @@ namespace FindMyMed.Controllers
         [HttpPut]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
         public ActionResult<ReadCartDTO> SaveCart(UpdateCartDTO cart)
         {
             int product = 0;

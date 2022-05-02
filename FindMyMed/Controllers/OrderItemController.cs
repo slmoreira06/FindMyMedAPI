@@ -36,7 +36,7 @@ namespace FindMyMed.Controllers
 
         [HttpGet]
         [ProducesResponseType(200)]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
         public ActionResult<IEnumerable<ReadOrderItemDTO>> GetOrderItemsByOrder(int id)
         {
             var item = repository.GetOrderItemsByOrder(id);
@@ -46,7 +46,7 @@ namespace FindMyMed.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
         public ActionResult<ReadOrderItemDTO> GetOrderItemById(int id)
         {
             var item = repository.GetOrderItemById(id);
@@ -60,7 +60,7 @@ namespace FindMyMed.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = ("User, Admin"))]
         public ActionResult<ReadOrderItemDTO> UpdateOrderItem(int id, UpdateOrderItemDTO item)
         {
             if (item is null)
