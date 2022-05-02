@@ -6,7 +6,6 @@ namespace FindMyMed.DAL
 {
     public class OrderDAO : IOrdersRepository
     {
-        private readonly IOrderItemsRepository itemsRepository;
         String connect = "Server=tcp:test-sql-lesipl-pds.database.windows.net,1433;Initial Catalog=FindMyMed_db;Persist Security Info=False;User ID=Ipca_Server;Password=Soueu1999;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
         public bool CreateOrder(Order order)

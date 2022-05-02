@@ -1,4 +1,6 @@
 using FindMyMed.DAL;
+using FindMyMed.DAL.DAO;
+using FindMyMed.DAL.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -19,6 +21,7 @@ builder.Services.AddScoped<IProductsRepository, ProductDAO>();
 builder.Services.AddScoped<ISupportsRepository, SupportDAO>();
 builder.Services.AddScoped<ICartsRepository, CartDAO>();
 builder.Services.AddScoped<IInventoriesRepository, InventoryDAO>();
+builder.Services.AddScoped<ICalendarEventsRepository, CalendarEventDAO>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSwaggerGen((options =>
 {
