@@ -59,7 +59,7 @@ namespace FindMyMed.Controllers
             email.From.Add(new MailboxAddress(sup.Name,sup.Email));
             email.To.Add(MailboxAddress.Parse("a8544@alunos.ipca.pt"));
             email.Subject = "Email de suporte";
-            email.Body = new TextPart(TextFormat.Plain) { Text = "Email de suporte\n" +
+            email.Body = new TextPart(TextFormat.Plain) { Text = "\nEmail de suporte\n\n" +
                 "\tNome: " + sup.Name + "\n\tEmail: " + sup.Email + "\n\tContacto: " + sup.Phone +
                 "\n\tAssunto: " + sup.Subject + "\n\tMensagem: " + sup.Message};
 
