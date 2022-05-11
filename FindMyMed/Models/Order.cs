@@ -13,11 +13,8 @@ namespace FindMyMed.Models
     }
     public enum OrderStatus
     {
-        [Display(Name = "Pendente")]
         Pending,
-        [Display(Name = "Completo")]
         Completed,
-        [Display(Name = "Cancelado")]
         Cancelled
     }
 

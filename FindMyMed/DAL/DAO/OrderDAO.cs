@@ -125,20 +125,22 @@ namespace FindMyMed.DAL
             return order;
         }
 
-        public UpdateOrderDTO UpdateOrder(int id, UpdateOrderDTO orderDTO)
+        public bool OrderCheckout(int id)
         {
+            bool success = false;
             String queryString = $"UPDATE dbo.Orders SET Status=@Status WHERE Id = {id}";
             using (SqlConnection sqlConnection = new SqlConnection(connect))
             {
                 using (SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection))
                 {
-                    sqlCommand.Parameters.Add("@Status", System.Data.SqlDbType.NVarChar).Value = orderDTO.Status;
+                    sqlCommand.Parameters.Add("@Status", System.Data.SqlDbType.NVarChar).Value = OrderStatus.Completed;
 
                     try
                     {
                         sqlConnection.Open();
                         sqlCommand.ExecuteNonQuery();
                         sqlConnection.Close();
+                        success = true;
                     }
                     catch (Exception e)
                     {
@@ -146,7 +148,7 @@ namespace FindMyMed.DAL
                     }
                 }
             }
-            return orderDTO;
+            return success;
         }
     }
 }

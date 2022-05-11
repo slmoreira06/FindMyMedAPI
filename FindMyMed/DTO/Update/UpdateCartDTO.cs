@@ -10,5 +10,7 @@ namespace FindMyMed.DTO
         public virtual Order Order { get; set; }
         public double TotalPrice { get; set; }
         public CartStatus Status { get; set; }
+        public Checkout Checkout { get; set; }
+
     }
 }

@@ -9,6 +9,7 @@
         public int OrderId { get; set; }
         public virtual Order Order { get; set; }
         public CartStatus Status { get; set; }
+        public Checkout Checkout { get; set; }
     }
 
     public enum CartStatus
@@ -16,5 +17,11 @@
         Paid,
         Cancelled,
         Pending
+    }
+
+    public enum Checkout
+    {
+        Yes,
+        No,
     }
 }
