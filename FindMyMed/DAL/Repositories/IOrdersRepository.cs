@@ -8,6 +8,6 @@ namespace FindMyMed.DAL
         bool CreateOrder(Order order);
         Order GetOrderById(int id);
         IEnumerable<Order> GetOrders();
-        UpdateOrderDTO UpdateOrder(int id, UpdateOrderDTO orderDTO);
+        bool OrderCheckout(int id);
     }
 }

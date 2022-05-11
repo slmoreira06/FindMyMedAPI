@@ -76,7 +76,6 @@ namespace FindMyMed.Controllers
                                 user.UserPoints -= cart.UsedPoints;
                                 cart.TotalPrice = sum;
                                 inv.Quantity -= item.Quantity;
-                                var newInv = inventoriesRepository.UpdateInventory(inv.Id, invDto);
                                 for(cart.UsedPoints = 10; cart.UsedPoints < 100; cart.UsedPoints += 10)
                                 {
                                     cart.TotalPrice--;
@@ -91,11 +90,23 @@ namespace FindMyMed.Controllers
                     {
                         wonPoints++;
                     }
-                    user.UserPoints += wonPoints;
-                    usersRepository.UpdateUserProfile(user.Id, updateUser);
-                    repository.SaveCart(cart);
-                    var cartRead = mapper.Map<UpdateCartDTO>(cart);
-                    return Ok(cartRead);
+                    if (cart.Checkout == Checkout.Yes)
+                    {
+                        user.UserPoints += wonPoints;
+                        usersRepository.UpdateUserProfile(user.Id, updateUser);
+                        var newInv = inventoriesRepository.UpdateInventory(inv.Id, invDto);
+                        ordersRepository.OrderCheckout(cart.OrderId);
+                        repository.SaveCart(cart);
+                        var cartRead = mapper.Map<UpdateCartDTO>(cart);
+                        return Ok(cartRead);
+                    }
+                    else
+                    {
+                        repository.SaveCart(cart);
+                        var cartRead = mapper.Map<UpdateCartDTO>(cart);
+                        return Ok(cartRead);
+                    }
+
                 }
                 catch (Exception ex)
                 {
