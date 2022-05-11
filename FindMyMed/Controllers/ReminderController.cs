@@ -66,8 +66,8 @@ namespace FindMyMed.Controllers
         public ActionResult<ReadReminderDTO> CreateReminder(CreateReminderDTO reminderDTO)
         {
             Reminder reminder = mapper.Map<Reminder>(reminderDTO); 
-            var accountSid = Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
-            var authToken = Environment.GetEnvironmentVariable("TWILIO_AUTH_TOKEN");
+            var accountSid = configuration["TWILIO_ACCOUNT_SID"];
+            var authToken = configuration["TWILIO_AUTH_TOKEN"];
 
             TwilioClient.Init(accountSid, authToken);
             var email = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault().Value;
