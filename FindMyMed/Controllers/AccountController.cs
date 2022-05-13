@@ -31,7 +31,7 @@ namespace FindMyMed.Controllers
         private readonly IMapper mapper;
 
         /// <summary>
-        /// 
+        /// This controller will map every account on interface to the database. 
         /// </summary>
         /// <param name="repository"></param>
         /// <param name="mapper"></param>
@@ -41,6 +41,10 @@ namespace FindMyMed.Controllers
             this.mapper = mapper;
         }
         
+        /// <summary>
+        /// Lists all accounts and deploys the response code 200(OK). Only the admin can see the list.
+        /// </summary>
+        /// <returns>List{{Accounts}}</returns>
         [HttpGet]
         [ProducesResponseType(200)]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
@@ -50,6 +54,11 @@ namespace FindMyMed.Controllers
             return Ok(mapper.Map<IEnumerable<ReadAccountDTO>>(accounts));
         }
 
+        /// <summary>
+        /// Show an account, could deploy an error 200(OK) meaning the Account was found or deploy an error 404(NOT FOUND) meaning no user was found. Only admin can check the user. 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Account</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -64,6 +73,11 @@ namespace FindMyMed.Controllers
             return Ok(mapper.Map<ReadAccountDTO>(account));
         }
 
+        /// <summary>
+        /// Create an Account, can deploy a error 201(CREATED) meaning an Account was created, or an error 400 meaning could not create an Acccount
+        /// </summary>
+        /// <param name="accDTO"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
