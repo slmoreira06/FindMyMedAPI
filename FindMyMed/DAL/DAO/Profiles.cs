@@ -1,4 +1,7 @@
 ﻿using FindMyMed.DTO;
+using FindMyMed.DTO.Create;
+using FindMyMed.DTO.Read;
+using FindMyMed.DTO.Update;
 using FindMyMed.Models;
 
 namespace FindMyMed.DAL
@@ -45,6 +48,11 @@ namespace FindMyMed.DAL
             CreateMap<Cart, ReadCartDTO>();
             CreateMap<Cart, UpdateCartDTO>();
             CreateMap<UpdateCartDTO, Cart>();
+
+            CreateMap<CalendarEvent, ReadCalendarEventDTO>();
+            CreateMap<CreateCalendarEventDTO, CalendarEvent>();
+            CreateMap<CalendarEvent, UpdateCalendarEventDTO>();
+            CreateMap<UpdateCalendarEventDTO, CalendarEvent>();
         }
     }
 }

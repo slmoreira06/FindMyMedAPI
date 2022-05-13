@@ -9,5 +9,6 @@ namespace FindMyMed.DAL
         Order GetOrderById(int id);
         IEnumerable<Order> GetOrders();
         bool OrderCheckout(int id);
+        bool CancelOrder(int id);
     }
 }

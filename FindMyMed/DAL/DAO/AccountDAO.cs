@@ -185,7 +185,7 @@ namespace FindMyMed.DAL
         public Account GetAccount(LoginAccount loginAccount)
         {
             Account acc = new Account();
-            string sqlStatement = $"SELECT Id, Email, Password FROM dbo.Accounts WHERE Email = '{loginAccount.Email}'";
+            string sqlStatement = $"SELECT Id, Email, Password, Type FROM dbo.Accounts WHERE Email = '{loginAccount.Email}'";
             using (SqlConnection connection = new SqlConnection(connect))
             {
                 try
@@ -201,6 +201,8 @@ namespace FindMyMed.DAL
                             acc.Id = reader.GetFieldValue<int>(0);
                             acc.Email = reader.GetFieldValue<string>(1);
                             acc.Password = reader.GetFieldValue<string>(2);
+                            acc.Type = Enum.Parse<Types>(reader.GetFieldValue<string>(3));
+
                         }
                     }
                     reader.Close();
