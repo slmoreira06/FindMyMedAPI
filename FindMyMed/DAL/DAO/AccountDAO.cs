@@ -3,7 +3,7 @@ using FindMyMed.Models;
 using Microsoft.Data.SqlClient;
 
 namespace FindMyMed.DAL
-{
+{   
     public class AccountDAO : IAccountsRepository
     {
         String connect = "Server=tcp:test-sql-lesipl-pds.database.windows.net,1433;Initial Catalog=FindMyMed_db;Persist Security Info=False;User ID=Ipca_Server;Password=Soueu1999;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";

@@ -19,8 +19,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace FindMyMed.Controllers
-{
+{   
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : Controller
@@ -29,12 +30,17 @@ namespace FindMyMed.Controllers
         private readonly IAccountsRepository repository;
         private readonly IMapper mapper;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="repository"></param>
+        /// <param name="mapper"></param>
         public AccountController(IAccountsRepository repository, IMapper mapper)
         {
             this.repository = repository;
             this.mapper = mapper;
         }
-
+        
         [HttpGet]
         [ProducesResponseType(200)]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
