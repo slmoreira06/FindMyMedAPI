@@ -82,12 +82,13 @@ namespace FindMyMed.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
-        public ActionResult<ReadOrderDTO> UpdateOrder(int id, UpdateOrderDTO order)
+        public ActionResult<ReadOrderDTO> CancelOrder(int id)
         {
-            if (order is null)
-                return NotFound();
+            bool result = false;
 
-            repository.UpdateOrder(id, order);
+            result = repository.CancelOrder(id);
+            if (result is false)
+                return NotFound();
 
             return NoContent();
         }
