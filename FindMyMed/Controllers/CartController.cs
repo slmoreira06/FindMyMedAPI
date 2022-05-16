@@ -21,7 +21,16 @@ namespace FindMyMed.Controllers
         private readonly IProductsRepository productsRepository;
         private readonly IInventoriesRepository inventoriesRepository;
         private readonly IUsersRepository usersRepository;
-
+        /// <summary>
+        /// This controller will map any Cart request from database.
+        /// </summary>
+        /// <param name="repository"></param>
+        /// <param name="ordersRepository"></param>
+        /// <param name="orderItemsRepository"></param>
+        /// <param name="productsRepository"></param>
+        /// <param name="inventoriesRepository"></param>
+        /// <param name="usersRepository"></param>
+        /// <param name="mapper"></param>
         public CartController(ICartsRepository repository, IOrdersRepository ordersRepository,
             IOrderItemsRepository orderItemsRepository, IProductsRepository productsRepository,
             IInventoriesRepository inventoriesRepository, IUsersRepository usersRepository,
@@ -36,6 +45,11 @@ namespace FindMyMed.Controllers
             this.mapper = mapper;
         }
 
+        /// <summary>
+        /// Update all items on Cart, including customers points, price.
+        /// </summary>
+        /// <param name="cart"></param>
+        /// <returns>StatusCodeCart</returns>
         [HttpPut]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]

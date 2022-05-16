@@ -42,7 +42,7 @@ namespace FindMyMed.Controllers
         public ActionResult<IEnumerable<ReadOrderDTO>> GetOrders()
         {
             var order = repository.GetOrders();
-            
+
             foreach (Order orderLine in order)
             {
                 orderLine.Items = itemsRepository.GetOrderItemsByOrder(orderLine.Id);
@@ -78,18 +78,18 @@ namespace FindMyMed.Controllers
             return CreatedAtAction(nameof(GetOrders), new { id = orderRead.Id }, orderRead);
         }
 
-        [HttpPut("{id}")]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(404)]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
-        public ActionResult<ReadOrderDTO> UpdateOrder(int id, UpdateOrderDTO order)
-        {
-            if (order is null)
-                return NotFound();
+        //    [HttpPut("{id}")]
+        //    [ProducesResponseType(204)]
+        //    [ProducesResponseType(404)]
+        //    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
+        //    public ActionResult<ReadOrderDTO> UpdateOrder(int id, UpdateOrderDTO order)
+        //    {
+        //        if (order is null)
+        //            return NotFound();
 
-            repository.UpdateOrder(id, order);
+        //        repository.UpdateOrder(id, order);
 
-            return NoContent();
-        }
+        //        return NoContent();
+        //    }
     }
 }
