@@ -31,7 +31,7 @@ namespace FindMyMed.Controllers
         private readonly IMapper mapper;
 
         /// <summary>
-        /// This controller will map every account on interface to the database. 
+        /// This controller will map any Account request from database. 
         /// </summary>
         /// <param name="repository"></param>
         /// <param name="mapper"></param>
@@ -55,7 +55,7 @@ namespace FindMyMed.Controllers
         }
 
         /// <summary>
-        /// Show an account, could deploy an error 200(OK) meaning the Account was found or deploy an error 404(NOT FOUND) meaning no user was found. Only admin can check the user. 
+        /// Show an account, could deploy an error 200(OK) meaning the Account was found or deploy an error 404(NOT FOUND) meaning no Account was found. Only admin can check the Account. 
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Account</returns>
@@ -74,10 +74,10 @@ namespace FindMyMed.Controllers
         }
 
         /// <summary>
-        /// Create an Account, can deploy a error 201(CREATED) meaning an Account was created, or an error 400 meaning could not create an Acccount
+        /// Create an Account, can deploy a code 201(CREATED) meaning an Account was created, or an error 400  couldn't create an Acccount
         /// </summary>
         /// <param name="accDTO"></param>
-        /// <returns></returns>
+        /// <returns>StatusCode</returns>
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -91,6 +91,12 @@ namespace FindMyMed.Controllers
             return CreatedAtAction(nameof(GetAccounts), new { id = accRead.Id }, accRead);
         }
 
+        /// <summary>
+        /// Update an Account, can deploy a code 204(NO CONTENT) meaning content was updated , or an error 404() no Account corresponding to update.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="acc"></param>
+        /// <returns>StatusCode</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]

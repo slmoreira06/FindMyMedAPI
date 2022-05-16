@@ -42,7 +42,7 @@ namespace FindMyMed.Controllers
         public ActionResult<IEnumerable<ReadOrderDTO>> GetOrders()
         {
             var order = repository.GetOrders();
-            
+
             foreach (Order orderLine in order)
             {
                 orderLine.Items = itemsRepository.GetOrderItemsByOrder(orderLine.Id);
@@ -90,7 +90,5 @@ namespace FindMyMed.Controllers
             if (result is false)
                 return NotFound();
 
-            return NoContent();
-        }
     }
 }
