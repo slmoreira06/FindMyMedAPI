@@ -150,6 +150,32 @@ namespace FindMyMed.DAL
             }
             return success;
         }
+
+        public bool CancelOrder(int id)
+        {
+            bool success = false;
+            String queryString = $"UPDATE dbo.Orders SET Status=@Status WHERE Id = {id}";
+            using (SqlConnection sqlConnection = new SqlConnection(connect))
+            {
+                using (SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection))
+                {
+                    sqlCommand.Parameters.Add("@Status", System.Data.SqlDbType.NVarChar).Value = OrderStatus.Cancelled;
+
+                    try
+                    {
+                        sqlConnection.Open();
+                        sqlCommand.ExecuteNonQuery();
+                        sqlConnection.Close();
+                        success = true;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+            }
+            return success;
+        }
     }
 }
 

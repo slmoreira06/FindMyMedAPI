@@ -78,18 +78,17 @@ namespace FindMyMed.Controllers
             return CreatedAtAction(nameof(GetOrders), new { id = orderRead.Id }, orderRead);
         }
 
-        //    [HttpPut("{id}")]
-        //    [ProducesResponseType(204)]
-        //    [ProducesResponseType(404)]
-        //    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
-        //    public ActionResult<ReadOrderDTO> UpdateOrder(int id, UpdateOrderDTO order)
-        //    {
-        //        if (order is null)
-        //            return NotFound();
+        [HttpPut("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
+        public ActionResult<ReadOrderDTO> CancelOrder(int id)
+        {
+            bool result = false;
 
-        //        repository.UpdateOrder(id, order);
+            result = repository.CancelOrder(id);
+            if (result is false)
+                return NotFound();
 
-        //        return NoContent();
-        //    }
     }
 }
