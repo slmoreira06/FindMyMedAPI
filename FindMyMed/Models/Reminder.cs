@@ -12,7 +12,8 @@
 
     public enum Repetition
     {
-        Once,
+        Seconds,
+        Hourly,
         Daily,
         Weekly,
         Monthly

@@ -53,6 +53,11 @@ namespace FindMyMed.DAL
             CreateMap<CreateCalendarEventDTO, CalendarEvent>();
             CreateMap<CalendarEvent, UpdateCalendarEventDTO>();
             CreateMap<UpdateCalendarEventDTO, CalendarEvent>();
+
+            CreateMap<Reminder, ReadReminderDTO>();
+            CreateMap<CreateReminderDTO, Reminder>();
+            CreateMap<Reminder, UpdateReminderDTO>();
+            CreateMap<UpdateReminderDTO, Reminder>();
         }
     }
 }
