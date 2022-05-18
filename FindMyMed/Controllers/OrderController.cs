@@ -42,7 +42,7 @@ namespace FindMyMed.Controllers
         public ActionResult<IEnumerable<ReadOrderDTO>> GetOrders()
         {
             var order = repository.GetOrders();
-            
+
             foreach (Order orderLine in order)
             {
                 orderLine.Items = itemsRepository.GetOrderItemsByOrder(orderLine.Id);
@@ -84,9 +84,7 @@ namespace FindMyMed.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
         public ActionResult<ReadOrderDTO> CancelOrder(int id)
         {
-            bool result = false;
-
-            result = repository.CancelOrder(id);
+            bool result = repository.CancelOrder(id);
             if (result is false)
                 return NotFound();
 

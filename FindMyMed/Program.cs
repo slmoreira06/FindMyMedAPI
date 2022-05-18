@@ -22,6 +22,7 @@ builder.Services.AddScoped<ISupportsRepository, SupportDAO>();
 builder.Services.AddScoped<ICartsRepository, CartDAO>();
 builder.Services.AddScoped<IInventoriesRepository, InventoryDAO>();
 builder.Services.AddScoped<ICalendarEventsRepository, CalendarEventDAO>();
+builder.Services.AddScoped<IRemindersRepository, ReminderDAO>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSwaggerGen((options =>
 {

@@ -193,7 +193,6 @@ namespace FindMyMed.DAL
                     connection.Open();
                     SqlCommand command = new SqlCommand(sqlStatement, connection);
                     SqlDataReader reader = command.ExecuteReader();
-
                     while (reader.Read())
                     {
                         if (loginAccount.Password == reader.GetFieldValue<string>(2) && loginAccount.Status == StatusEnum.Activo)
@@ -202,7 +201,6 @@ namespace FindMyMed.DAL
                             acc.Email = reader.GetFieldValue<string>(1);
                             acc.Password = reader.GetFieldValue<string>(2);
                             acc.Type = Enum.Parse<Types>(reader.GetFieldValue<string>(3));
-
                         }
                     }
                     reader.Close();
