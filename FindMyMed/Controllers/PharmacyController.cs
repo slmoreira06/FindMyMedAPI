@@ -20,7 +20,7 @@ namespace FindMyMed.Controllers
             this.mapper = mapper;
         }
         /// <summary>
-        /// List all pharmacies
+        /// Find all pharmacies
         /// </summary>
         /// <returns>StatusCode</returns>
         [HttpGet]
@@ -31,7 +31,7 @@ namespace FindMyMed.Controllers
             return Ok(mapper.Map<IEnumerable<ReadPharmDTO>>(pharms));
         }
         /// <summary>
-        /// List a specific pharmacy
+        /// Find a specific pharmacy
         /// </summary>
         /// <param name="id"></param>
         /// <returns>StatusCode</returns>

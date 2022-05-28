@@ -20,7 +20,7 @@ namespace FindMyMed.Controllers
             this.mapper = mapper;
         }
         /// <summary>
-        /// List all user
+        /// Find all users
         /// </summary>
         /// <returns>StatusCode</returns>
         [HttpGet]
