@@ -49,7 +49,7 @@ namespace FindMyMed.Controllers
         /// Update all items on Cart, including customers points, price.
         /// </summary>
         /// <param name="cart"></param>
-        /// <returns>StatusCodeCart</returns>
+        /// <returns>StatusCode</returns>
         [HttpPut]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]

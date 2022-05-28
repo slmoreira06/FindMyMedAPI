@@ -31,7 +31,7 @@ namespace FindMyMed.Controllers
         private readonly IMapper mapper;
 
         /// <summary>
-        /// This controller will map any Account request from database. 
+        /// This controller operate with any account request from database. 
         /// </summary>
         /// <param name="repository"></param>
         /// <param name="mapper"></param>
@@ -44,7 +44,7 @@ namespace FindMyMed.Controllers
         /// <summary>
         /// Lists all accounts and deploys the response code 200(OK). Only the admin can see the list.
         /// </summary>
-        /// <returns>List{{Accounts}}</returns>
+        /// <returns>List({Accounts})</returns>
         [HttpGet]
         [ProducesResponseType(200)]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
@@ -55,7 +55,7 @@ namespace FindMyMed.Controllers
         }
 
         /// <summary>
-        /// Show an account, could deploy an error 200(OK) meaning the Account was found or deploy an error 404(NOT FOUND) meaning no Account was found. Only admin can check the Account. 
+        /// Show an account, could deploy an error 200(OK) meaning the account was found or deploy an error 404(NOT FOUND) meaning no Account was found. Only admin can check the accounts. 
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Account</returns>
@@ -74,7 +74,7 @@ namespace FindMyMed.Controllers
         }
 
         /// <summary>
-        /// Create an Account, can deploy a code 201(CREATED) meaning an Account was created, or an error 400  couldn't create an Acccount
+        /// Create an account, can deploy a code 201(CREATED) meaning an account was created, or an error 400  couldn't create an acccount.
         /// </summary>
         /// <param name="accDTO"></param>
         /// <returns>StatusCode</returns>
@@ -92,7 +92,7 @@ namespace FindMyMed.Controllers
         }
 
         /// <summary>
-        /// Update an Account, can deploy a code 204(NO CONTENT) meaning content was updated , or an error 404() no Account corresponding to update.
+        /// Update an account, can deploy a code 204(NO CONTENT) meaning content was updated , or an error 404(BAD REQUEST) no account corresponding to update.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="acc"></param>

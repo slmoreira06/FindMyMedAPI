@@ -9,17 +9,27 @@ using System.Text;
 namespace FindMyMed.Controllers
 {
 
+
     [Route("api/[controller]")]
     [ApiController]
     public class LoginController : ControllerBase
     {
         private readonly IAccountsRepository repository;
 
+        /// <summary>
+        /// This controller operate with any login request.
+        /// </summary>
+        /// <param name="repository"></param>
         public LoginController(IAccountsRepository repository)
         {
             this.repository = repository;
         }
 
+        /// <summary>
+        /// This controller operate with any login request. 
+        /// </summary>
+        /// <param name="loginDTO"></param>
+        /// <returns>Token</returns>
         [HttpPost]
         public IActionResult Login(LoginAccount loginDTO)
         {

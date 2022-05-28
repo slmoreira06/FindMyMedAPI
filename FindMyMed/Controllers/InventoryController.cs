@@ -15,6 +15,11 @@ namespace FindMyMed.Controllers
         private readonly IInventoriesRepository repository;
         private readonly IMapper mapper;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="repository"></param>
+        /// <param name="mapper"></param>
         public InventoryController(IInventoriesRepository repository, IMapper mapper)
         {
             this.repository = repository;
