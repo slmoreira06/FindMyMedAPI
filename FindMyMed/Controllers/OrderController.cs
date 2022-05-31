@@ -80,11 +80,6 @@ namespace FindMyMed.Controllers
             return Ok(mapper.Map<ReadOrderDTO>(order));
         }
 
-        /// <summary>
-        /// User can create an order response is a code 201(CREATED) or an error 400(BAD REQUEST) order was not created
-        /// </summary>
-        /// <param name="orderDTO"></param>
-        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -98,12 +93,7 @@ namespace FindMyMed.Controllers
 
             return CreatedAtAction(nameof(GetOrders), new { id = orderRead.Id }, orderRead);
         }
-        
-        /// <summary>
-        /// Cancel the result of an order with a code 204(NO CONTENT) meaning order was sucessufully canceled or 404(NOT FOUND) order was not canceled
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns>StatusCode</returns>
+
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
