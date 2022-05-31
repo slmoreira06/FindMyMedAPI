@@ -26,6 +26,10 @@ namespace FindMyMed.Controllers
             this.mapper = mapper;
         }
 
+        /// <summary>
+        /// List every product in stock, deploy an error 200(OK), only admin and pharm can view the inventory. 
+        /// </summary>
+        /// <returns>StatusCode</returns>
         [HttpGet]
         [ProducesResponseType(200)]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Pharm, Admin")]
@@ -35,6 +39,11 @@ namespace FindMyMed.Controllers
             return Ok(mapper.Map<IEnumerable<ReadInventoryDTO>>(inventories));
         }
 
+        /// <summary>
+        /// List product by Id, deploy a code 200(OK) meaning the product was found or 404(NOT FOUND) meaning no product was found. Only admin can view the product.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>StatusCode</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -49,6 +58,11 @@ namespace FindMyMed.Controllers
             return Ok(mapper.Map<ReadInventoryDTO>(inv));
         }
 
+        /// <summary>
+        /// Create an product, can deploy a code 201(CREATED) meaning a product was created, or an error 400  couldn't create a product.
+        /// </summary>
+        /// <param name="invDTO"></param>
+        /// <returns>StatusCode</returns>
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -63,6 +77,12 @@ namespace FindMyMed.Controllers
             return CreatedAtAction(nameof(GetInventories), new { id = invRead.Id }, invRead);
         }
 
+        /// <summary>
+        /// Edit an product, can deploy a code 201(CREATED) meaning a product was created, or an error 400  couldn't create a product.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="inv"></param>
+        /// <returns>StatusCode</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]

@@ -86,7 +86,7 @@ namespace FindMyMed.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="calendarEventDTO"></param>
-        /// <returns></returns>
+        /// <returns>StatusCode</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]

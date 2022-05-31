@@ -182,6 +182,11 @@ namespace FindMyMed.DAL
             return account;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="loginAccount"></param>
+        /// <returns></returns>
         public Account GetAccount(LoginAccount loginAccount)
         {
             Account acc = new Account();

@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FindMyMed.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class OrderController : Controller
@@ -29,6 +30,12 @@ namespace FindMyMed.Controllers
         private readonly IOrderItemsRepository itemsRepository;
         private readonly IMapper mapper;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="repository"></param>
+        /// <param name="mapper"></param>
+        /// <param name="itemsRepository"></param>
         public OrderController(IOrdersRepository repository, IMapper mapper, IOrderItemsRepository itemsRepository)
         {
             this.repository = repository;
@@ -36,6 +43,10 @@ namespace FindMyMed.Controllers
             this.itemsRepository = itemsRepository;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(200)]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
@@ -50,6 +61,11 @@ namespace FindMyMed.Controllers
             return Ok(mapper.Map<IEnumerable<ReadOrderDTO>>(order));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -64,6 +80,11 @@ namespace FindMyMed.Controllers
             return Ok(mapper.Map<ReadOrderDTO>(order));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="orderDTO"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -78,6 +99,12 @@ namespace FindMyMed.Controllers
             return CreatedAtAction(nameof(GetOrders), new { id = orderRead.Id }, orderRead);
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
