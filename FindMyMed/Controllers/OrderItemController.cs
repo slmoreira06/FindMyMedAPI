@@ -34,6 +34,11 @@ namespace FindMyMed.Controllers
             this.mapper = mapper;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(200)]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
@@ -43,6 +48,11 @@ namespace FindMyMed.Controllers
             return Ok(mapper.Map<IEnumerable<ReadOrderItemDTO>>(item));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -57,6 +67,12 @@ namespace FindMyMed.Controllers
             return Ok(mapper.Map<ReadOrderItemDTO>(item));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="item"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]

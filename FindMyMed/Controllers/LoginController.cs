@@ -25,11 +25,6 @@ namespace FindMyMed.Controllers
             this.repository = repository;
         }
 
-        /// <summary>
-        /// This controller operate with any login request. 
-        /// </summary>
-        /// <param name="loginDTO"></param>
-        /// <returns>Token</returns>
         [HttpPost]
         public IActionResult Login(LoginAccount loginDTO)
         {
