@@ -3,7 +3,7 @@ using FindMyMed.Models;
 using Microsoft.Data.SqlClient;
 
 namespace FindMyMed.DAL
-{   
+{
     public class AccountDAO : IAccountsRepository
     {
         String connect = "Server=tcp:test-sql-lesipl-pds.database.windows.net,1433;Initial Catalog=FindMyMed_db;Persist Security Info=False;User ID=Ipca_Server;Password=Soueu1999;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
@@ -180,6 +180,38 @@ namespace FindMyMed.DAL
                 }
             }
             return account;
+        }
+
+        public Account GetAccountByEmail(string email)
+        {
+            Account acc = new Account();
+            string sqlStatement = $"SELECT Id, Email, Password, Type FROM dbo.Accounts WHERE Email = '{email}'";
+            using (SqlConnection connection = new SqlConnection(connect))
+            {
+                try
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(sqlStatement, connection);
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        acc.Id = reader.GetFieldValue<int>(0);
+                        acc.Email = reader.GetFieldValue<string>(1);
+                        acc.Password = reader.GetFieldValue<string>(2);
+                        acc.Type = Enum.Parse<Types>(reader.GetFieldValue<string>(3));
+                    }
+                    reader.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            return acc;
         }
 
         public Account GetAccount(LoginAccount loginAccount)
