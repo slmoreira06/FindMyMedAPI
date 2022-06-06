@@ -90,7 +90,7 @@ namespace FindMyMed.Controllers
                                 user.UserPoints -= cart.UsedPoints;
                                 cart.TotalPrice = sum;
                                 inv.Quantity -= item.Quantity;
-                                for(cart.UsedPoints = 10; cart.UsedPoints < 100; cart.UsedPoints += 10)
+                                for (cart.UsedPoints = 10; cart.UsedPoints < 100; cart.UsedPoints += 10)
                                 {
                                     cart.TotalPrice--;
                                 }
@@ -126,6 +126,26 @@ namespace FindMyMed.Controllers
                 {
                     return NotFound(ex);
                 }
+            }
+        }
+
+        [HttpDelete]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
+        public ActionResult CancelCart()
+        {
+            try
+            {
+                Cart cart = new Cart();
+                cart = repository.GetCart();
+                ordersRepository.CancelOrder(cart.OrderId);
+                repository.ClearCart();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
             }
         }
     }

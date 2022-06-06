@@ -4,9 +4,15 @@ using FindMyMed.DAL.Repositories;
 using FindMyMed.DTO.Create;
 using FindMyMed.DTO.Read;
 using FindMyMed.DTO.Update;
-using FindMyMed.DAL.Repositories;
-using AutoMapper;
-using System.Timers;
+using FindMyMed.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using Twilio;
+using Twilio.AspNet.Core;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
 
 namespace FindMyMed.Controllers
 {

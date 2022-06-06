@@ -26,7 +26,7 @@ namespace FindMyMed.Controllers
 
         [HttpGet]
         [ProducesResponseType(200)]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
+     //   [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
         public ActionResult<IEnumerable<ReadCalendarEventDTO>> GetEvents()
         {
             var events = repository.GetEvents();
@@ -50,7 +50,7 @@ namespace FindMyMed.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
+      //  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
         public ActionResult<ReadCalendarEventDTO> CreateCalendarEvent(CreateCalendarEventDTO calendarEventDTO)
         {
 
