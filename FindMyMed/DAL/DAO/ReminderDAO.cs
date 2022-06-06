@@ -12,14 +12,13 @@ namespace FindMyMed.DAL.DAO
         public bool CreateReminder(Reminder reminder)
         {
             bool success = false;
-            String queryString = $"INSERT INTO dbo.Reminders (Text, Repeat, Hours, Status, MessageSid) VALUES (@Text, @Repeat, @Hours, @Status, @MessageSid)";
+            String queryString = $"INSERT INTO dbo.Reminders (Text, Repeat, Status, MessageSid) VALUES (@Text, @Repeat, @Status, @MessageSid)";
             using (SqlConnection sqlConnection = new SqlConnection(connect))
             {
                 using (SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection))
                 {
                     sqlCommand.Parameters.Add("@Text", System.Data.SqlDbType.NVarChar).Value = reminder.Text;
                     sqlCommand.Parameters.Add("@Repeat", System.Data.SqlDbType.NVarChar).Value = reminder.Repeat;
-                    sqlCommand.Parameters.Add("@Hours", System.Data.SqlDbType.Int).Value = reminder.Hours;
                     sqlCommand.Parameters.Add("@Status", System.Data.SqlDbType.NVarChar).Value = reminder.Status;
                     sqlCommand.Parameters.Add("@MessageSid", System.Data.SqlDbType.NVarChar).Value = reminder.Status;
 
@@ -42,7 +41,7 @@ namespace FindMyMed.DAL.DAO
         public IEnumerable<Reminder> GetReminders()
         {
             List<Reminder> reminders = new List<Reminder>();
-            string sqlStatement = $"SELECT Id, Text, Repeat, Hours, Status, MessageSid FROM dbo.Reminders";
+            string sqlStatement = $"SELECT Id, Text, Repeat, Status, MessageSid FROM dbo.Reminders";
             using (SqlConnection connection = new SqlConnection(connect))
             {
                 try
@@ -57,9 +56,8 @@ namespace FindMyMed.DAL.DAO
                         rm.Id = reader.GetFieldValue<int>(0);
                         rm.Text = reader.GetFieldValue<string>(1);
                         rm.Repeat = Enum.Parse<Repetition>(reader.GetFieldValue<string>(2));
-                        rm.Hours = reader.GetFieldValue<int>(3);
-                        rm.Status = Enum.Parse<Status>(reader.GetFieldValue<string>(4));
-                        rm.MessageSid = reader.GetFieldValue<string>(5);
+                        rm.Status = Enum.Parse<Status>(reader.GetFieldValue<string>(3));
+                        rm.MessageSid = reader.GetFieldValue<string>(4);
                         reminders.Add(rm);
                     }
                     // Call Close when done reading.
@@ -80,7 +78,7 @@ namespace FindMyMed.DAL.DAO
         public Reminder GetReminderById(int id)
         {
             Reminder rm = new Reminder();
-            string sqlStatement = $"SELECT Id, Text, Repeat, Hours, Status, MessageSid FROM dbo.Reminders WHERE Id = {id}";
+            string sqlStatement = $"SELECT Id, Text, Repeat, Status, MessageSid FROM dbo.Reminders WHERE Id = {id}";
             using (SqlConnection connection = new SqlConnection(connect))
             {
                 try
@@ -94,9 +92,8 @@ namespace FindMyMed.DAL.DAO
                         rm.Id = reader.GetFieldValue<int>(0);
                         rm.Text = reader.GetFieldValue<string>(1);
                         rm.Repeat = Enum.Parse<Repetition>(reader.GetFieldValue<string>(2));
-                        rm.Hours = reader.GetFieldValue<int>(3);
-                        rm.Status = Enum.Parse<Status>(reader.GetFieldValue<string>(4)); 
-                        rm.MessageSid = reader.GetFieldValue<string>(5);
+                        rm.Status = Enum.Parse<Status>(reader.GetFieldValue<string>(3)); 
+                        rm.MessageSid = reader.GetFieldValue<string>(4);
 
                     }
                     reader.Close();

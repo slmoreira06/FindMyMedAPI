@@ -12,13 +12,13 @@ namespace FindMyMed.DAL.DAO
         public bool CreateCalendarEvent(CalendarEvent calendarEvent)
         {
             bool success = false;
-            String queryString = $"INSERT INTO dbo.CalendarEvents (Start, End, Title, Description, Color) VALUES (@Start, @End, @Title, @Description, @Color)";
+            String queryString = $"INSERT INTO dbo.CalendarEvents (StartDate, EndDate, Title, Description, Color) VALUES (@StartDate, @EndDate, @Title, @Description, @Color)";
             using (SqlConnection sqlConnection = new SqlConnection(connect))
             {
                 using (SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection))
                 {
-                    sqlCommand.Parameters.Add("@Start", System.Data.SqlDbType.DateTime).Value = calendarEvent.Start;
-                    sqlCommand.Parameters.Add("@End", System.Data.SqlDbType.DateTime).Value = calendarEvent.End;
+                    sqlCommand.Parameters.Add("@StartDate", System.Data.SqlDbType.Date).Value = calendarEvent.Start;
+                    sqlCommand.Parameters.Add("@EndDate", System.Data.SqlDbType.Date).Value = calendarEvent.End;
                     sqlCommand.Parameters.Add("@Title", System.Data.SqlDbType.NVarChar).Value = calendarEvent.Title;
                     sqlCommand.Parameters.Add("@Description", System.Data.SqlDbType.NVarChar).Value = calendarEvent.Description;
                     sqlCommand.Parameters.Add("@Color", System.Data.SqlDbType.NVarChar).Value = calendarEvent.Color;
@@ -42,7 +42,7 @@ namespace FindMyMed.DAL.DAO
         public IEnumerable<CalendarEvent> GetEvents()
         {
             List<CalendarEvent> events = new List<CalendarEvent>();
-            string sqlStatement = $"SELECT Id, Start, End, Title, Description, Color FROM dbo.CalendarEvents";
+            string sqlStatement = $"SELECT Id, StartDate, EndDate, Title, Description, Color FROM dbo.CalendarEvents";
             using (SqlConnection connection = new SqlConnection(connect))
             {
                 try
@@ -80,7 +80,7 @@ namespace FindMyMed.DAL.DAO
         public CalendarEvent GetCalendarEventById(int id)
         {
             CalendarEvent evt = new CalendarEvent();
-            string sqlStatement = $"SELECT Id, Start, End, Title, Description, Color FROM dbo.CalendarEvents WHERE Id = {id}";
+            string sqlStatement = $"SELECT Id, StartDate, EndDate, Title, Description, Color FROM dbo.CalendarEvents WHERE Id = {id}";
             using (SqlConnection connection = new SqlConnection(connect))
             {
                 try
@@ -114,13 +114,13 @@ namespace FindMyMed.DAL.DAO
 
         public UpdateCalendarEventDTO UpdateCalendarEvent(int id, UpdateCalendarEventDTO calendarEventDTO)
         {
-            String queryString = $"UPDATE dbo.CalendarEvents SET Start=@Start, End=@End, Title=@Title, Description=@Description, Color=@Color WHERE Id = {id}";
+            String queryString = $"UPDATE dbo.CalendarEvents SET StartDate=@StartDate, EndDate=@EndDate, Title=@Title, Description=@Description, Color=@Color WHERE Id = {id}";
             using (SqlConnection sqlConnection = new SqlConnection(connect))
             {
                 using (SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection))
                 {
-                    sqlCommand.Parameters.Add("@Start", System.Data.SqlDbType.DateTime).Value = calendarEventDTO.Start;
-                    sqlCommand.Parameters.Add("@End", System.Data.SqlDbType.DateTime).Value = calendarEventDTO.End;
+                    sqlCommand.Parameters.Add("@StartDate", System.Data.SqlDbType.DateTime).Value = calendarEventDTO.Start;
+                    sqlCommand.Parameters.Add("@EndDate", System.Data.SqlDbType.DateTime).Value = calendarEventDTO.End;
                     sqlCommand.Parameters.Add("@Title", System.Data.SqlDbType.NVarChar).Value = calendarEventDTO.Title;
                     sqlCommand.Parameters.Add("@Description", System.Data.SqlDbType.NVarChar).Value = calendarEventDTO.Description;
                     sqlCommand.Parameters.Add("@Color", System.Data.SqlDbType.NVarChar).Value = calendarEventDTO.Color;
