@@ -10,7 +10,6 @@ namespace FindMyMed.DAL.Repositories
         IEnumerable<CalendarEvent> GetEvents();
         CalendarEvent GetCalendarEventById(int id);
         UpdateCalendarEventDTO UpdateCalendarEvent(int id, UpdateCalendarEventDTO eventDTO);
-        bool DeleteCalendarEvent(CalendarEvent calendarEvent);
-
+        bool DeleteCalendarEvent(int id);
     }
 }

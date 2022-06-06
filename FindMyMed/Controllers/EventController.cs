@@ -82,13 +82,7 @@ namespace FindMyMed.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
         public ActionResult DeleteCalendarEvent(int id)
         {
-            var calendarEvent = repository.GetCalendarEventById(id);
-            if (calendarEvent == null)
-            {
-                return NotFound();
-            }
-
-            repository.DeleteCalendarEvent(calendarEvent);
+            repository.DeleteCalendarEvent(id);
 
             return NoContent();
         }

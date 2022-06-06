@@ -140,10 +140,10 @@ namespace FindMyMed.DAL.DAO
             return calendarEventDTO;
         }
 
-        public bool DeleteCalendarEvent(CalendarEvent calendarEvent)
+        public bool DeleteCalendarEvent(int id)
         {
             bool success = false;
-            String queryString = $"DELETE FROM dbo.CalendarEvents WHERE Id = {calendarEvent.Id}";
+            String queryString = $"DELETE FROM dbo.CalendarEvents WHERE Id = {id}";
             using (SqlConnection sqlConnection = new SqlConnection(connect))
             {
                 using (SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection))
