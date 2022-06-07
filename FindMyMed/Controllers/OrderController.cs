@@ -62,10 +62,10 @@ namespace FindMyMed.Controllers
         }
 
         /// <summary>
-        /// 
+        /// List an order and return a code 200(OK) menaning users and admin can view order list or 404(NOT FOUND) meaning order not found
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns>StatusCode</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -81,7 +81,7 @@ namespace FindMyMed.Controllers
         }
 
         /// <summary>
-        /// 
+        /// User can create an order response is a code 201(CREATED) or an error 400(BAD REQUEST) order was not created
         /// </summary>
         /// <param name="orderDTO"></param>
         /// <returns></returns>
@@ -98,13 +98,12 @@ namespace FindMyMed.Controllers
 
             return CreatedAtAction(nameof(GetOrders), new { id = orderRead.Id }, orderRead);
         }
-
-
+        
         /// <summary>
-        /// 
+        /// Cancel the result of an order with a code 204(NO CONTENT) meaning order was sucessufully canceled or 404(NOT FOUND) order was not canceled
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns>StatusCode</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]

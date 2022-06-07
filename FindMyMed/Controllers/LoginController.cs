@@ -25,6 +25,11 @@ namespace FindMyMed.Controllers
             this.repository = repository;
         }
 
+        /// <summary>
+        /// Create an entry on the application return a code 200(OK) menaing login was a sucess or 401(UNAUTHORIZED)
+        /// </summary>
+        /// <param name="loginDTO"></param>
+        /// <returns>StatusCode</returns>
         [HttpPost]
         public IActionResult Login(LoginAccount loginDTO)
         {
