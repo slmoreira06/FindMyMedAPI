@@ -77,7 +77,7 @@ namespace FindMyMed.Controllers
             var body = "Car@ " + user.FirstName + " " + user.LastName + ", por favor note o lembrete registado!: \n" + "\"" + reminder.Text + "\"";
 
             if (reminder.Repeat is Repetition.Seconds)
-                time = TimeSpan.FromMinutes(3);
+                time = TimeSpan.FromSeconds(180);
 
             else if (reminder.Repeat is Repetition.Hourly)
                 time = TimeSpan.FromHours(8);
