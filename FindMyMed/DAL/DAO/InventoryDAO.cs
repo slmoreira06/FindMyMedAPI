@@ -6,6 +6,9 @@ namespace FindMyMed.DAL
 {
     public class InventoryDAO : IInventoriesRepository
     {
+        private readonly IProductsRepository? productsRepository;
+        private readonly IPharmsRepository? pharmsRepository;
+
         String connect = "Server=tcp:test-sql-lesipl-pds.database.windows.net,1433;Initial Catalog=FindMyMed_db;Persist Security Info=False;User ID=Ipca_Server;Password=Soueu1999;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
         public bool CreateInventory(Inventory inventory)
@@ -16,12 +19,16 @@ namespace FindMyMed.DAL
             {
                 using (SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection))
                 {
-                    sqlCommand.Parameters.Add("@Quantity", System.Data.SqlDbType.NVarChar).Value = inventory.Quantity;
-                    sqlCommand.Parameters.Add("@ProductId", System.Data.SqlDbType.Int).Value = inventory.ProductId;
-                    sqlCommand.Parameters.Add("@PharmacyId", System.Data.SqlDbType.Int).Value = inventory.PharmacyId;
-
                     try
                     {
+                        Product product = new Product();
+                        product = productsRepository.GetProductById(inventory.ProductId);
+                        Pharmacy pharm = new Pharmacy();
+                        pharm = pharmsRepository.GetPharmById(inventory.PharmacyId);
+                        sqlCommand.Parameters.Add("@Quantity", System.Data.SqlDbType.NVarChar).Value = inventory.Quantity;
+                        sqlCommand.Parameters.Add("@ProductId", System.Data.SqlDbType.Int).Value = product.Id;
+                        sqlCommand.Parameters.Add("@PharmacyId", System.Data.SqlDbType.Int).Value = pharm.Id;
+
                         sqlConnection.Open();
                         sqlCommand.ExecuteNonQuery();
                         sqlConnection.Close();

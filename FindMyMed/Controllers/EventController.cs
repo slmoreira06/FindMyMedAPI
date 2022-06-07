@@ -35,7 +35,7 @@ namespace FindMyMed.Controllers
         /// <returns>StatusCode</returns>
         [HttpGet]
         [ProducesResponseType(200)]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
+     //   [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
         public ActionResult<IEnumerable<ReadCalendarEventDTO>> GetEvents()
         {
             var events = repository.GetEvents();
@@ -69,7 +69,7 @@ namespace FindMyMed.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
+      //  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
         public ActionResult<ReadCalendarEventDTO> CreateCalendarEvent(CreateCalendarEventDTO calendarEventDTO)
         {
 
@@ -111,13 +111,7 @@ namespace FindMyMed.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
         public ActionResult DeleteCalendarEvent(int id)
         {
-            var calendarEvent = repository.GetCalendarEventById(id);
-            if (calendarEvent == null)
-            {
-                return NotFound();
-            }
-
-            repository.DeleteCalendarEvent(calendarEvent);
+            repository.DeleteCalendarEvent(id);
 
             return NoContent();
         }

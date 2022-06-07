@@ -70,11 +70,16 @@ namespace FindMyMed.Controllers
         public ActionResult<ReadInventoryDTO> CreateInventory(CreateInventoryDTO invDTO)
         {
             Inventory inv = mapper.Map<Inventory>(invDTO);
-            repository.CreateInventory(inv);
-
-            var invRead = mapper.Map<ReadInventoryDTO>(inv);
-
-            return CreatedAtAction(nameof(GetInventories), new { id = invRead.Id }, invRead);
+            bool result = repository.CreateInventory(inv);
+            if (result == false)
+            {
+                return BadRequest("Non existing product or pharmacy");
+            }
+            else
+            {
+                var invRead = mapper.Map<ReadInventoryDTO>(inv);
+                return CreatedAtAction(nameof(GetInventories), new { id = invRead.Id }, invRead);
+            }
         }
 
         /// <summary>

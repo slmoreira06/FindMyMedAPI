@@ -25,7 +25,6 @@ namespace FindMyMed.Controllers
         private readonly IUsersRepository usersRepository;
         private readonly IMapper mapper;
 
-
         public ReminderController(IRemindersRepository repository, IConfiguration configuration, IUsersRepository usersRepository, IMapper mapper)
         {
             this.repository = repository;
@@ -72,7 +71,7 @@ namespace FindMyMed.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
-        public ActionResult<ReadReminderDTO> CreateReminder(CreateReminderDTO reminderDTO)
+        public async Task<ActionResult<ReadReminderDTO>> CreateReminder(CreateReminderDTO reminderDTO)
         {
             Reminder reminder = mapper.Map<Reminder>(reminderDTO);
             var accountSid = this.configuration.GetSection("Twilio")["AccountSid"];
@@ -82,34 +81,41 @@ namespace FindMyMed.Controllers
             var email = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault().Value;
             User user = new User();
             user = usersRepository.GetUserByEmail(email);
-            var time = DateTime.UtcNow;
+            var time = new TimeSpan();
 
             var from = new PhoneNumber(this.configuration.GetSection("Twilio")["PhoneNumber"]);
             var to = new PhoneNumber("+351" + user.Phone.ToString());
-            var body = "Dear " + user.FirstName + " " + user.LastName + ", please note the requested reminder!: \n" + "\"" + reminder.Text + "\"";
+            var body = "Car@ " + user.FirstName + " " + user.LastName + ", por favor note o lembrete registado!: \n" + "\"" + reminder.Text + "\"";
 
-            if (reminder.Repeat is Repetition.Once)
-                time = DateTime.UtcNow.AddMinutes(5);
+            if (reminder.Repeat is Repetition.Seconds)
+                time = TimeSpan.FromSeconds(180);
+
+            else if (reminder.Repeat is Repetition.Hourly)
+                time = TimeSpan.FromHours(8);
 
             else if (reminder.Repeat is Repetition.Daily)
-                time = DateTime.UtcNow.AddHours(24);
+                time = TimeSpan.FromHours(24);
 
             else if (reminder.Repeat is Repetition.Weekly)
-                time = DateTime.UtcNow.AddDays(7);
+                time = TimeSpan.FromDays(7);
 
             else if (reminder.Repeat is Repetition.Monthly)
-                time = DateTime.UtcNow.AddMonths(1);
-
-            var message = MessageResource.Create(
-                to: to,
-                from: from,
-                body: body,
-                sendAt: time,
-                scheduleType: MessageResource.ScheduleTypeEnum.Fixed
-                );
+                time = TimeSpan.FromDays(30);
 
             repository.CreateReminder(reminder);
             var remRead = mapper.Map<ReadReminderDTO>(reminder);
+
+            var timer = new PeriodicTimer(time);
+            while (await timer.WaitForNextTickAsync())
+            {
+                var message = MessageResource.Create(
+                to: to,
+                from: from,
+                body: body,
+                scheduleType: MessageResource.ScheduleTypeEnum.Fixed
+                );
+            }
+
             return CreatedAtAction(nameof(GetReminders), new { id = remRead.Id }, remRead);
         }
         /// <summary>
@@ -129,7 +135,7 @@ namespace FindMyMed.Controllers
             var reminder = repository.GetReminderById(id);
 
             var messages = MessageResource.Update(pathSid: reminder.MessageSid, status: MessageResource.UpdateStatusEnum.Canceled);
-
+            
             repository.CancelReminder(id, reminderDTO);
 
             return Ok("Reminder cancelled" + messages);

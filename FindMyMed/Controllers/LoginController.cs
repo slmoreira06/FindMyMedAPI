@@ -1,5 +1,7 @@
 ﻿using FindMyMed.DAL;
 using FindMyMed.DTO;
+using FindMyMed.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -15,6 +17,7 @@ namespace FindMyMed.Controllers
     public class LoginController : ControllerBase
     {
         private readonly IAccountsRepository repository;
+        private readonly IMapper mapper;
 
         /// <summary>
         /// This controller operate with any login request.
@@ -23,6 +26,18 @@ namespace FindMyMed.Controllers
         public LoginController(IAccountsRepository repository)
         {
             this.repository = repository;
+            this.mapper = mapper;
+        }
+
+        [HttpGet("{email}")]
+        public ActionResult<ReadAccountDTO> GetAccountByEmail(string email)
+        {
+            var account = repository.GetAccountByEmail(email);
+
+            if (account is null)
+                return NotFound();
+
+            return Ok(mapper.Map<ReadAccountDTO>(account));
         }
 
         /// <summary>
