@@ -37,4 +37,10 @@
     <PackageReference Include="Twilio.AspNet.Core" Version="5.73.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="System.Device">
+      <HintPath>System.Device.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
