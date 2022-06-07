@@ -24,7 +24,10 @@ namespace FindMyMed.Controllers
             this.repository = repository;
             this.mapper = mapper;
         }
-
+        /// <summary>
+        /// List all support message
+        /// </summary>
+        /// <returns>StatusCode</returns>
         [HttpGet]
         [ProducesResponseType(200)]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
@@ -33,7 +36,11 @@ namespace FindMyMed.Controllers
             var sup = repository.GetSupports();
             return Ok(mapper.Map<IEnumerable<ReadSupportDTO>>(sup));
         }
-
+        /// <summary>
+        /// List an support message
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>StatusCode</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -47,7 +54,11 @@ namespace FindMyMed.Controllers
 
             return Ok(mapper.Map<ReadSupportDTO>(sup));
         }
-
+        /// <summary>
+        /// Create a support message
+        /// </summary>
+        /// <param name="supDTO"></param>
+        /// <returns>StatusCode</returns>
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]

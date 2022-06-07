@@ -44,7 +44,7 @@ namespace FindMyMed.Controllers
         /// <summary>
         /// Lists all accounts and deploys the response code 200(OK). Only the admin can see the list.
         /// </summary>
-        /// <returns>List({Accounts})</returns>
+        /// <returns>StatusCode</returns>
         [HttpGet]
         [ProducesResponseType(200)]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
@@ -58,7 +58,7 @@ namespace FindMyMed.Controllers
         /// Show an account, could deploy an error 200(OK) meaning the account was found or deploy an error 404(NOT FOUND) meaning no Account was found. Only admin can check the accounts. 
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>Account</returns>
+        /// <returns>StatusCode</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]

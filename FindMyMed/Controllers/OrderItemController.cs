@@ -35,7 +35,7 @@ namespace FindMyMed.Controllers
         }
 
         /// <summary>
-        /// 
+        /// List all orders
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -49,10 +49,10 @@ namespace FindMyMed.Controllers
         }
 
         /// <summary>
-        /// 
+        /// list an specific order
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns>StatusCode</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -68,11 +68,11 @@ namespace FindMyMed.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Update an specific order
         /// </summary>
         /// <param name="id"></param>
         /// <param name="item"></param>
-        /// <returns></returns>
+        /// <returns>StatusCode</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]

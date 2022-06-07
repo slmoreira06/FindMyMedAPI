@@ -116,6 +116,7 @@ namespace FindMyMed.Controllers
             result = repository.CancelOrder(id);
             if (result is false)
                 return NotFound();
+            return Ok(result);
         }
     }
 }

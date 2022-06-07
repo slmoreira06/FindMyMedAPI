@@ -1,4 +1,6 @@
-﻿namespace FindMyMed.Models
+﻿
+namespace FindMyMed.Models
+
 {
     public class CalendarEvent
     {

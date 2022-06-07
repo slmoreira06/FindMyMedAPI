@@ -19,7 +19,10 @@ namespace FindMyMed.Controllers
             this.repository = repository;
             this.mapper = mapper;
         }
-
+        /// <summary>
+        /// List all user
+        /// </summary>
+        /// <returns>StatusCode</returns>
         [HttpGet]
         [ProducesResponseType(200)]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
@@ -28,7 +31,11 @@ namespace FindMyMed.Controllers
             var users = repository.GetUsers();
             return Ok(mapper.Map<IEnumerable<ReadUserDTO>>(users));
         }
-
+        /// <summary>
+        /// List an specific user 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>StatusCode</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -42,7 +49,12 @@ namespace FindMyMed.Controllers
 
             return Ok(mapper.Map<ReadUserDTO>(user));
         }
-
+        /// <summary>
+        /// Update an specific user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]

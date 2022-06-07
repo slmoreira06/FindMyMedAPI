@@ -19,7 +19,10 @@ namespace FindMyMed.Controllers
             this.repository = repository;
             this.mapper = mapper;
         }
-
+        /// <summary>
+        /// List all pharmacies
+        /// </summary>
+        /// <returns>StatusCode</returns>
         [HttpGet]
         [ProducesResponseType(200)]
         public ActionResult<IEnumerable<ReadPharmDTO>> GetPharms()
@@ -27,7 +30,11 @@ namespace FindMyMed.Controllers
             var pharms = repository.GetPharms();
             return Ok(mapper.Map<IEnumerable<ReadPharmDTO>>(pharms));
         }
-
+        /// <summary>
+        /// List a specific pharmacy
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>StatusCode</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -40,7 +47,12 @@ namespace FindMyMed.Controllers
 
             return Ok(mapper.Map<ReadPharmDTO>(pharm));
         }
-
+        /// <summary>
+        /// Update a specific pharmacy
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="pharm"></param>
+        /// <returns>StatusCode</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]

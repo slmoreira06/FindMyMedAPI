@@ -33,7 +33,10 @@ namespace FindMyMed.Controllers
             this.usersRepository = usersRepository;
             this.mapper = mapper;
         }
-
+        /// <summary>
+        /// List all reminders
+        /// </summary>
+        /// <returns>StatusCode</returns>
         [HttpGet]
         [ProducesResponseType(200)]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
@@ -42,7 +45,11 @@ namespace FindMyMed.Controllers
             var reminders = repository.GetReminders();
             return Ok(mapper.Map<IEnumerable<ReadReminderDTO>>(reminders));
         }
-
+        /// <summary>
+        /// List a specific reminder
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>StatusCode</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -56,7 +63,11 @@ namespace FindMyMed.Controllers
 
             return Ok(mapper.Map<ReadReminderDTO>(reminder));
         }
-
+        /// <summary>
+        /// Update a reminder
+        /// </summary>
+        /// <param name="reminderDTO"></param>
+        /// <returns>StatusCode</returns>
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
@@ -101,7 +112,12 @@ namespace FindMyMed.Controllers
             var remRead = mapper.Map<ReadReminderDTO>(reminder);
             return CreatedAtAction(nameof(GetReminders), new { id = remRead.Id }, remRead);
         }
-
+        /// <summary>
+        /// Update a reminder by canceling it.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="reminderDTO"></param>
+        /// <returns>StatusCode</returns>
         [HttpPut]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]

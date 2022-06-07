@@ -46,7 +46,7 @@ namespace FindMyMed.Controllers
         }
 
         /// <summary>
-        /// Update all items on Cart, including customers points, price.
+        /// Update all items on cart, including customers points, return a code 204(NO CONTENT) or an error 404(NOT FOUND).
         /// </summary>
         /// <param name="cart"></param>
         /// <returns>StatusCode</returns>

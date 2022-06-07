@@ -34,7 +34,10 @@ namespace FindMyMed.Controllers
             this.repository = repository;
             this.mapper = mapper;
         }
-
+        /// <summary>
+        /// List all products 
+        /// </summary>
+        /// <returns>StatusCode</returns>
         [HttpGet]
         [ProducesResponseType(200)]
         public ActionResult<IEnumerable<ReadProductDTO>> GetProducts()
@@ -42,7 +45,11 @@ namespace FindMyMed.Controllers
             var prod = repository.GetProducts();
             return Ok(mapper.Map<IEnumerable<ReadProductDTO>>(prod));
         }
-
+        /// <summary>
+        /// List a specific product
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>StatusCode</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -55,7 +62,11 @@ namespace FindMyMed.Controllers
 
             return Ok(mapper.Map<ReadProductDTO>(prod));
         }
-
+        /// <summary>
+        /// Create a product
+        /// </summary>
+        /// <param name="prodDTO"></param>
+        /// <returns>StatusCode</returns>
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -69,7 +80,12 @@ namespace FindMyMed.Controllers
 
             return CreatedAtAction(nameof(GetProducts), new { id = prodRead.Id }, prodRead);
         }
-
+        /// <summary>
+        /// Update a specific product
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="prod"></param>
+        /// <returns>StatusCode</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
