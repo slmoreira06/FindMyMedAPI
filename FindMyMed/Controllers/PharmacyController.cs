@@ -23,7 +23,6 @@ namespace FindMyMed.Controllers
             this.mapper = mapper;
         }
 
-        [AllowAnonymous]
         [HttpGet]
         [ProducesResponseType(200)]
         public ActionResult<IEnumerable<ReadPharmDTO>> GetPharms()
