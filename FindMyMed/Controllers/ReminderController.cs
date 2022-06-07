@@ -24,15 +24,13 @@ namespace FindMyMed.Controllers
         private readonly IConfiguration configuration;
         private readonly IUsersRepository usersRepository;
         private readonly IMapper mapper;
-        private readonly PeriodicTimer periodic;
 
-        public ReminderController(IRemindersRepository repository, IConfiguration configuration, IUsersRepository usersRepository, IMapper mapper, PeriodicTimer periodic)
+        public ReminderController(IRemindersRepository repository, IConfiguration configuration, IUsersRepository usersRepository, IMapper mapper)
         {
             this.repository = repository;
             this.configuration = configuration;
             this.usersRepository = usersRepository;
             this.mapper = mapper;
-            this.periodic = periodic;
         }
 
         [HttpGet]
@@ -76,10 +74,10 @@ namespace FindMyMed.Controllers
 
             var from = new PhoneNumber(this.configuration.GetSection("Twilio")["PhoneNumber"]);
             var to = new PhoneNumber("+351" + user.Phone.ToString());
-            var body = "Dear " + user.FirstName + " " + user.LastName + ", please note the requested reminder!: \n" + "\"" + reminder.Text + "\"";
+            var body = "Car@ " + user.FirstName + " " + user.LastName + ", por favor note o lembrete registado!: \n" + "\"" + reminder.Text + "\"";
 
             if (reminder.Repeat is Repetition.Seconds)
-                time = TimeSpan.FromSeconds(10);
+                time = TimeSpan.FromSeconds(180);
 
             else if (reminder.Repeat is Repetition.Hourly)
                 time = TimeSpan.FromHours(8);
@@ -93,6 +91,9 @@ namespace FindMyMed.Controllers
             else if (reminder.Repeat is Repetition.Monthly)
                 time = TimeSpan.FromDays(30);
 
+            repository.CreateReminder(reminder);
+            var remRead = mapper.Map<ReadReminderDTO>(reminder);
+
             var timer = new PeriodicTimer(time);
             while (await timer.WaitForNextTickAsync())
             {
@@ -104,8 +105,6 @@ namespace FindMyMed.Controllers
                 );
             }
 
-            repository.CreateReminder(reminder);
-            var remRead = mapper.Map<ReadReminderDTO>(reminder);
             return CreatedAtAction(nameof(GetReminders), new { id = remRead.Id }, remRead);
         }
 
@@ -118,8 +117,6 @@ namespace FindMyMed.Controllers
                 return NotFound();
 
             var reminder = repository.GetReminderById(id);
-
-            periodic.Dispose();
 
             var messages = MessageResource.Update(pathSid: reminder.MessageSid, status: MessageResource.UpdateStatusEnum.Canceled);
             
