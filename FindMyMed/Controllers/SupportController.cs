@@ -25,7 +25,7 @@ namespace FindMyMed.Controllers
             this.mapper = mapper;
         }
         /// <summary>
-        /// List all support message
+        /// Find all support message
         /// </summary>
         /// <returns>StatusCode</returns>
         [HttpGet]
@@ -37,7 +37,7 @@ namespace FindMyMed.Controllers
             return Ok(mapper.Map<IEnumerable<ReadSupportDTO>>(sup));
         }
         /// <summary>
-        /// List an support message
+        /// Find an support message
         /// </summary>
         /// <param name="id"></param>
         /// <returns>StatusCode</returns>

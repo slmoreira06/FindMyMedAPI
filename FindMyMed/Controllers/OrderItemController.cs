@@ -35,10 +35,10 @@ namespace FindMyMed.Controllers
         }
 
         /// <summary>
-        /// List all orders
+        /// Find all order items
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns>StatusCode</returns>
         [HttpGet]
         [ProducesResponseType(200)]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
@@ -49,7 +49,7 @@ namespace FindMyMed.Controllers
         }
 
         /// <summary>
-        /// list an specific order
+        /// Find a specific order
         /// </summary>
         /// <param name="id"></param>
         /// <returns>StatusCode</returns>
@@ -68,7 +68,7 @@ namespace FindMyMed.Controllers
         }
 
         /// <summary>
-        /// Update an specific order
+        /// Update a specific order
         /// </summary>
         /// <param name="id"></param>
         /// <param name="item"></param>

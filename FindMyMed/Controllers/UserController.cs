@@ -32,7 +32,7 @@ namespace FindMyMed.Controllers
             return Ok(mapper.Map<IEnumerable<ReadUserDTO>>(users));
         }
         /// <summary>
-        /// List an specific user 
+        /// Find an specific user 
         /// </summary>
         /// <param name="id"></param>
         /// <returns>StatusCode</returns>

@@ -44,7 +44,7 @@ namespace FindMyMed.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Find all orders and return a code 200(OK) menaning users and admin can view order list.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -62,7 +62,7 @@ namespace FindMyMed.Controllers
         }
 
         /// <summary>
-        /// List an order and return a code 200(OK) menaning users and admin can view order list or 404(NOT FOUND) meaning order not found
+        /// Find an order and return a code 200(OK) menaning users and admin can view order list or 404(NOT FOUND) meaning order not found
         /// </summary>
         /// <param name="id"></param>
         /// <returns>StatusCode</returns>
@@ -80,6 +80,11 @@ namespace FindMyMed.Controllers
             return Ok(mapper.Map<ReadOrderDTO>(order));
         }
 
+        /// <summary>
+        /// Create an order and return a code 201(CREATED) menaning  order created or 400(BAD REQUEST).
+        /// </summary>
+        /// <param name="orderDTO"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -94,6 +99,11 @@ namespace FindMyMed.Controllers
             return CreatedAtAction(nameof(GetOrders), new { id = orderRead.Id }, orderRead);
         }
 
+        /// <summary>
+        /// Cancel an order and return a code 204 or error 404
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]

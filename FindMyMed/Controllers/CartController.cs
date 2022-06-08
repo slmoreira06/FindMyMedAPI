@@ -129,6 +129,10 @@ namespace FindMyMed.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete a cart. Cart deleted deploy a code 204(NO CONTENT), in case the cart is unavailable deploy an error 404(BAD REQUEST)
+        /// </summary>
+        /// <returns>StatusCode</returns>
         [HttpDelete]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]

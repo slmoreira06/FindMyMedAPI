@@ -27,7 +27,7 @@ namespace FindMyMed.Controllers
         }
 
         /// <summary>
-        /// List every product in stock, deploy an error 200(OK), only admin and pharm can view the inventory. 
+        /// Find every inventory, deploy an error 200(OK), only admin and pharm can view the inventory. 
         /// </summary>
         /// <returns>StatusCode</returns>
         [HttpGet]
@@ -40,7 +40,7 @@ namespace FindMyMed.Controllers
         }
 
         /// <summary>
-        /// List product by Id, deploy a code 200(OK) meaning the product was found or 404(NOT FOUND) meaning no product was found. Only admin can view the product.
+        /// Find an inventory by id, deploy a code 200(OK) meaning the inventory was found or 404(NOT FOUND) meaning no inventory was found. Only admin can view the inventory.
         /// </summary>
         /// <param name="id"></param>
         /// <returns>StatusCode</returns>
@@ -59,7 +59,7 @@ namespace FindMyMed.Controllers
         }
 
         /// <summary>
-        /// Create an product, can deploy a code 201(CREATED) meaning a product was created, or an error 400  couldn't create a product.
+        /// Create an inventory, can deploy a code 201(CREATED) meaning an inventory was created, or an error 400  couldn't create a inventory.
         /// </summary>
         /// <param name="invDTO"></param>
         /// <returns>StatusCode</returns>
@@ -83,7 +83,7 @@ namespace FindMyMed.Controllers
         }
 
         /// <summary>
-        /// Edit an product, can deploy a code 201(CREATED) meaning a product was created, or an error 400  couldn't create a product.
+        /// Edit an inventory, can deploy a code 201(CREATED) meaning a inventory was created, or an error 400  couldn't create a inventory.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="inv"></param>

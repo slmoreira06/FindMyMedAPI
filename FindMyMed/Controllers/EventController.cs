@@ -30,7 +30,7 @@ namespace FindMyMed.Controllers
         }
 
         /// <summary>
-        /// Show all events return a code 200(OK).
+        /// Find all events return a code 200(OK).
         /// </summary>
         /// <returns>StatusCode</returns>
         [HttpGet]
@@ -43,7 +43,7 @@ namespace FindMyMed.Controllers
         }
 
         /// <summary>
-        /// Show the event in calendar of an acount deploy an code 200(OK). Deploy an error 404(NOT FOUND) if Account doesnt correspond to a event.
+        /// Find the event deploy an code 200(OK). Deploy an error 404(NOT FOUND) if Account doesnt correspond to a event.
         /// </summary>
         /// <param name="id"></param>
         /// <returns>StatusCode</returns>
@@ -62,7 +62,7 @@ namespace FindMyMed.Controllers
         }
 
         /// <summary>
-        /// Create a event in the calendar. Deploy a code 201(CREATED), refers to an envent created, or an error 400(BAD REQUEST).
+        /// Create a event. Deploy a code 201(CREATED), refers to an envent created, or an error 400(BAD REQUEST).
         /// </summary>
         /// <param name="calendarEventDTO"></param>
         /// <returns>Event</returns>

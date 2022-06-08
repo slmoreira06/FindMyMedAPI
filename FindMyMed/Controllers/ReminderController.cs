@@ -33,7 +33,7 @@ namespace FindMyMed.Controllers
             this.mapper = mapper;
         }
         /// <summary>
-        /// List all reminders
+        /// Find all reminders
         /// </summary>
         /// <returns>StatusCode</returns>
         [HttpGet]
@@ -45,7 +45,7 @@ namespace FindMyMed.Controllers
             return Ok(mapper.Map<IEnumerable<ReadReminderDTO>>(reminders));
         }
         /// <summary>
-        /// List a specific reminder
+        /// Find a specific reminder
         /// </summary>
         /// <param name="id"></param>
         /// <returns>StatusCode</returns>
